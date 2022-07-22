@@ -19,3 +19,11 @@ I want to meet interesting people and nerd out about stuff.  The best way to get
 
 I'm also on the socials: [twitter](https://twitter.com/waffledotexe), [linkedin](https://www.linkedin.com/in/khxela/),
 [github](https://github.com/alexkuang)
+
+### /blog
+
+{% for post in collections.blog | reverse%}
+<p>
+    <a href="{{ post.url }}">{{ post.data.title }}</a> <i><span style="font-size: .875rem">{{ post.date | date: "%b %d %Y"}}</span></i>
+</p>
+{% endfor %}
