@@ -1,0 +1,100 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zsh startup slowness</title>
+    <link rel="stylesheet" href="/assets/reset.css">
+    <style>
+      body {
+        font: 16px/1.4 system-ui,Helvetica,sans-serif;
+        background: #18181b;
+        color: #e5e7eb;
+      }
+      a {
+        color: #dc2626;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #ef4444;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        line-height: 1.2;
+        margin: 1em 0 0.5em 0;
+      }
+
+      ul {
+        margin: 0 0 1rem 0;
+      }
+
+      p {
+        margin: 0 0 1rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="display: flex; justify-content: center;">
+      <div style="width: 600px;">
+        <div style="display: flex; flex-direction: column;">
+          <div style="margin: 0.5em 0 1em 0;">
+            <a href="/"><strong>bikeshed.coffee</strong></a>
+          </div>
+          <main>
+            <h2>zsh startup slowness</h2>
+
+<p>For a while now I've felt like my zsh has been starting up more and more slowly. It's one of those small annoyances that
+builds up over time, especially if you pop a lot of shells via e.g. tmux and have to wait more than &quot;One Mississippi&quot; to
+do anything.  This week I finally got annoyed enough to do something about it.</p>
+<h2>before</h2>
+<p>Step one is to figure out exactly how slow and why.  First I timed the init:</p>
+<pre><code>$ time zsh -i -c exit
+0.71s user 0.58s system 52% cpu 2.479 total`
+</code></pre>
+<p>... Two and a half seconds??  Ouch.</p>
+<p>Next was to figure out what was causing the slowness via the profiler:</p>
+<pre><code class="language-sh"># in .zshrc...
+zmodload zsh/zprof
+# rest of config file
+zprof
+</code></pre>
+<p>This gets zsh to print out a breakdown of resource use for everything in <code>.zshrc</code>.  The output looks something like:</p>
+<pre><code>num  calls                time                       self            name
+-----------------------------------------------------------------------------------
+ 1)    2         288.03   144.01   20.45%    288.03   144.01   20.45%  compdump
+ 2)    2         697.50   348.75   49.53%    209.51   104.76   14.88%  compinit
+ 3)    1         538.85   538.85   38.26%    200.08   200.08   14.21%  nvm_auto
+ 4)    2         338.77   169.39   24.05%    193.05    96.53   13.71%  nvm
+ 5) 1563         156.34     0.10   11.10%    156.34     0.10   11.10%  compdef
+ 6)    1         126.92   126.92    9.01%    114.74   114.74    8.15%  nvm_ensure_version_installed
+ 7)    4          44.64    11.16    3.17%     44.64    11.16    3.17%  compaudit
+ 8)    5          34.08     6.82    2.42%     34.08     6.82    2.42%  __rvm_db
+</code></pre>
+<p>tl;dr - the first 25 or so lines for me were dominated by nvm and rvm.  Somehow not surprised.</p>
+<h2>nvm</h2>
+<p>nvm apparently takes forever for a variety of reasons, so the best course is to only use it when needed.  There are
+manual solutions out there, but I decided to lean into oh-my-zsh and just use the plugin's built-in lazy functionality.
+After removing the manual nvm install:</p>
+<pre><code># in .zshrc / config
+export NVM_LAZY=1
+plugins=(nvm)
+</code></pre>
+<h2>rvm</h2>
+<p>rvm is mostly around as cruft I had picked up over the ages.  I don't use ruby often (or at all) these days, so I just
+went ahead and removed it.  However, there are <a href="https://github.com/FrederickGeek8/zsh-rvm-lazy">other</a>
+<a href="https://github.com/gowda/lazy-load.sh">solutions</a> for folks who still need it + want lazy loading.</p>
+<h2>after</h2>
+<p>After the above, the time went down to about:</p>
+<pre><code>time zsh -i -c exit  0.23s user 0.10s system 101% cpu 0.332 total
+</code></pre>
+<p>Repeated runs showed it mostly starting in .3 - .5 sec.  Pretty good, but still plenty of room for improvement.</p>
+
+
+          </main>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
