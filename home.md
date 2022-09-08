@@ -22,7 +22,7 @@ I'm also on the socials: [twitter](https://twitter.com/waffledotexe), [linkedin]
 
 ### /blog
 
-{% for post in collections.blog | reverse%}
+{% for post in collections.blog reversed %}
 <p>
     <a href="{{ post.url }}">{{ post.data.title }}</a> <i><span style="font-size: .875rem">{{ post.date | date: "%b %d %Y"}}</span></i>
 </p>
