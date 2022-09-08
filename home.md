@@ -24,6 +24,6 @@ I'm also on the socials: [twitter](https://twitter.com/waffledotexe), [linkedin]
 
 {% for post in collections.blog reversed %}
 <p>
-    <a href="{{ post.url }}">{{ post.data.title }}</a> <i><span style="font-size: .875rem">{{ post.date | date: "%b %d %Y"}}</span></i>
+    <a href="{{ post.url }}">{{ post.data.title }}</a> <i><span style="font-size: .875rem">{{ post.date | postDate }}</span></i>
 </p>
 {% endfor %}
