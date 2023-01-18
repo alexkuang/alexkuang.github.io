@@ -8,10 +8,10 @@ Hello, world! Welcome to bikeshed.coffee, the personal site of Alex Kuang.
 ### /now
 
 - Living in New York
-- Starting a new company in web 2.42069
-- Trying to get my shit together health-wise
+- Starting a [new company](https://www.parallax.to/) in web 2.42069
+- Learning the basics of olympic lifting
+- Working on closing my first rental property
 - Thinking about the missed potential of modern software
-- Playing a lot of Monster Hunter Rise Sunbreak
 
 ### /contact
 
