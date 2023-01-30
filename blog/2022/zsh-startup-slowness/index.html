@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>zsh startup slowness</title>
     <link rel="stylesheet" href="/assets/reset.css">
+    <link rel="stylesheet" href="/assets/prism-vsc-dark-plus.css">
+
     <style>
       body {
         font: 16px/1.4 system-ui,Helvetica,sans-serif;
@@ -58,11 +60,7 @@ do anything.  This week I finally got annoyed enough to do something about it.</
 </code></pre>
 <p>... Two and a half seconds??  Ouch.</p>
 <p>Next was to figure out what was causing the slowness via the profiler:</p>
-<pre><code class="language-sh"># in .zshrc...
-zmodload zsh/zprof
-# rest of config file
-zprof
-</code></pre>
+<pre class="language-sh"><code class="language-sh"><span class="token comment"># in .zshrc...</span><br>zmodload zsh/zprof<br><span class="token comment"># rest of config file</span><br>zprof</code></pre>
 <p>This gets zsh to print out a breakdown of resource use for everything in <code>.zshrc</code>.  The output looks something like:</p>
 <pre><code>num  calls                time                       self            name
 -----------------------------------------------------------------------------------

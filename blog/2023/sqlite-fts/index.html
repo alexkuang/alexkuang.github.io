@@ -1,0 +1,103 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>full text search with sqlite + elixir</title>
+    <link rel="stylesheet" href="/assets/reset.css">
+    <link rel="stylesheet" href="/assets/prism-vsc-dark-plus.css">
+
+    <style>
+      body {
+        font: 16px/1.4 system-ui,Helvetica,sans-serif;
+        background: #18181b;
+        color: #e5e7eb;
+      }
+      a {
+        color: #dc2626;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #ef4444;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        line-height: 1.2;
+        margin: 1em 0 0.5em 0;
+      }
+
+      ul {
+        margin: 0 0 1rem 0;
+      }
+
+      p {
+        margin: 0 0 1rem 0;
+      }
+      pre {
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="display: flex; justify-content: center;">
+      <div style="width: 600px;">
+        <div style="display: flex; flex-direction: column;">
+          <div style="margin: 0.5em 0 1em 0;">
+            <a href="/"><strong>bikeshed.coffee</strong></a>
+          </div>
+          <main>
+            <h2>full text search with sqlite + elixir</h2>
+
+<p>As a part of my work on <a href="/blog/2023/alice/">alice</a>, I wanted to have full-text search on my bookmark
+metadata, including highlights.  The initial implementation used <a href="https://www.sqlite.org/fts5.html">sqlite native fts</a> +
+the excellent <a href="https://hexdocs.pm/ecto/Ecto.html">ecto</a> for interaction in elixir.  Though alice has since moved to
+postgres, the sqlite setup was interesting + ~mostly worked, so it deserves a quick walkthrough.</p>
+<h2>index + trigger setup</h2>
+<p>For the this walkthrough, let's say I have a table <code>bookmarks</code> with a title and a description field.  First step is
+setting up the index:</p>
+<pre class="language-elixir"><code class="language-elixir"><span class="token keyword">defmodule</span> <span class="token module class-name">Alice</span><span class="token punctuation">.</span><span class="token module class-name">Repo</span><span class="token punctuation">.</span><span class="token module class-name">Migrations</span><span class="token punctuation">.</span><span class="token module class-name">AddFtsIndexes</span> <span class="token keyword">do</span><br>  <span class="token keyword">use</span> <span class="token module class-name">Ecto</span><span class="token punctuation">.</span><span class="token module class-name">Migration</span><br><br>  <span class="token keyword">def</span> change <span class="token keyword">do</span><br>    <span class="token comment"># first arg is used for migrating up; second for migrating down</span><br>    <span class="token function">execute</span><span class="token punctuation">(</span><br>      <span class="token string">"""<br>      create virtual table<br>        fts_bookmarks<br>      using fts5(<br>        title,<br>        description,<br>        content=bookmarks,<br>        content_rowid=id<br>      );<br>      """</span><span class="token punctuation">,</span><br>      <span class="token string">"drop table fts_bookmarks;"</span><br>    <span class="token punctuation">)</span><br>  <span class="token keyword">end</span><br><span class="token keyword">end</span><br><span class="token punctuation">)</span></code></pre>
+<p>The <code>content</code> option tells sqlite that this is an <a href="https://www.sqlite.org/fts5.html#external_content_tables">external content table</a>
+-- that is, the full bookmark content lives outside of <code>fts_bookmarks</code>.  I chose this setup because 1) <code>bookmarks</code>
+contains other information that doesn't need full text search; 2) I already have a <code>bookmarks</code> table, so duplicating all
+fields is a waste of space; 3) I still want some fields e.g. title to be easily accessible without joining.</p>
+<p>The downside is that sqlite leaves it to the user to ensure that the index is up to date with the source content.  This
+is relatively straightforward with triggers, though a bit verbose:</p>
+<pre class="language-elixir"><code class="language-elixir"><span class="token comment"># rest of migration scaffolding omitted</span><br><span class="token function">execute</span><span class="token punctuation">(</span><br>  <span class="token string">"""<br>  create trigger bookmarks_ai after insert on bookmarks begin<br>    insert into fts_bookmarks(rowid, title, description) values (new.id, new.title, new.description);<br>  end;<br>  """</span><span class="token punctuation">,</span><br>  <span class="token string">"drop trigger bookmarks_ai;"</span><br><span class="token punctuation">)</span><br><br><span class="token function">execute</span><span class="token punctuation">(</span><br>  <span class="token string">"""<br>  create trigger bookmarks_ad after delete on bookmarks begin<br>    insert into fts_bookmarks(fts_bookmarks, rowid, title, description) values('delete', old.id, old.title, old.description);<br>  end;<br>  """</span><span class="token punctuation">,</span><br>  <span class="token string">"drop trigger bookmarks_ad;"</span><br><span class="token punctuation">)</span><br><br><span class="token function">execute</span><span class="token punctuation">(</span><br>  <span class="token string">"""<br>  create trigger bookmarks_au after update on bookmarks begin<br>    insert into fts_bookmarks(fts_bookmarks, rowid, title, description) values('delete', old.id, old.title, old.description);<br>    insert into fts_bookmarks(rowid, title, description) values (new.id, new.title, new.description);<br>  end;<br>  """</span><span class="token punctuation">,</span><br>  <span class="token string">"drop trigger bookmarks_au;"</span><br><span class="token punctuation">)</span></code></pre>
+<p>Unfortunately, sqlite doesn't offer first-class <code>update</code> or <code>delete</code> operations on external FTS tables.  Instead, you
+have to insert a 'delete' command with the exact current values in order to delete or update a given row. NB inserting a
+'delete' with the wrong values can bork the entire index.  The reasoning given in <a href="https://www.sqlite.org/fts5.html#the_delete_command">the docs</a>
+makes sense, but still seems like a leaky abstraction and an annoying gotcha.</p>
+<h2>doing search</h2>
+<p>After all the pomp and circumstance, the index can be used like so:</p>
+<pre class="language-sql"><code class="language-sql"><span class="token keyword">select</span> rowid <span class="token keyword">from</span> fts_bookmarks <span class="token keyword">where</span> fts_bookmarks <span class="token keyword">match</span> <span class="token string">'some title'</span><span class="token punctuation">;</span></code></pre>
+<p>With light ecto wrapping:</p>
+<pre class="language-elixir"><code class="language-elixir">query_string <span class="token operator">=</span> <span class="token string">"some title"</span><br><br><span class="token function">from</span><span class="token punctuation">(</span>r <span class="token operator">in</span> <span class="token string">"fts_bookmarks"</span><span class="token punctuation">,</span> <span class="token attr-name">select:</span> <span class="token punctuation">%</span><span class="token punctuation">{</span><span class="token attr-name">id:</span> r<span class="token punctuation">.</span>rowid<span class="token punctuation">,</span> <span class="token attr-name">rank:</span> r<span class="token punctuation">.</span>rank<span class="token punctuation">}</span><span class="token punctuation">)</span><br><span class="token operator">|></span> <span class="token function">where</span><span class="token punctuation">(</span><span class="token punctuation">[</span>_<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token function">fragment</span><span class="token punctuation">(</span><span class="token string">"fts_bookmarks match ?"</span><span class="token punctuation">,</span> <span class="token operator">^</span>query_string<span class="token punctuation">)</span><span class="token punctuation">)</span><br><span class="token operator">|></span> <span class="token function">order_by</span><span class="token punctuation">(</span><span class="token punctuation">[</span>r<span class="token punctuation">]</span><span class="token punctuation">,</span> r<span class="token punctuation">.</span>rank<span class="token punctuation">)</span><br><span class="token operator">|></span> <span class="token module class-name">Repo</span><span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>It's worth noting that sqlite has its own <a href="https://www.sqlite.org/fts5.html#full_text_query_syntax">query syntax</a> +
+tokenization which is exposed in its unadulterated form to the caller.  This can lead to some weird edge cases, e.g.
+<code>query_string = 'abc.d'</code> will fail because of the naked period.</p>
+<h2>more tables</h2>
+<p>I also ran into a hitch when indexing more tables, e.g. <code>highlights</code>.  With FTS the <code>where</code> clause you want is
+effectively the same for every table: <code>... where $table match '$query_string</code>.  DRY-ing up the <code>match</code> fragment proved
+less than straightforward.</p>
+<p>My first attempt was to put the table in the args -- I didn't think this structure would work with prepared statements,
+but figured it was worth a try in case of magic.  It compiled but unsurprisingly errored at runtime with <code>unable to use function MATCH in the requested context</code>:</p>
+<pre class="language-elixir"><code class="language-elixir"><span class="token keyword">def</span> <span class="token function">fts_match</span><span class="token punctuation">(</span>query<span class="token punctuation">,</span> fts_table<span class="token punctuation">,</span> fts_query<span class="token punctuation">)</span> <span class="token keyword">do</span><br>  from r <span class="token operator">in</span> query<span class="token punctuation">,</span><br>    <span class="token attr-name">where:</span> <span class="token function">fragment</span><span class="token punctuation">(</span><span class="token function">unquote</span><span class="token punctuation">(</span><span class="token string">"? match ?"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span>fts_query<span class="token punctuation">)</span><span class="token punctuation">,</span><br>    <span class="token attr-name">order_by:</span> r<span class="token punctuation">.</span>rank<br><span class="token keyword">end</span></code></pre>
+<p>Straight string interpolation -- <code>fragment(&quot;#{fts_table} match ?&quot;, ^fts_query)</code> -- did not even compile, for the obvious
+reason: <code>(Ecto.Query.CompileError) to prevent SQL injection attacks, fragment(...) does not allow strings to be interpolated as the first argument [...]</code></p>
+<p>Eventually I settled on a light macro approach that preserves safety while minimizing repetition:</p>
+<pre class="language-elixir"><code class="language-elixir"><span class="token punctuation">[</span><br>  <span class="token string">"fts_bookmarks"</span><span class="token punctuation">,</span><br>  <span class="token string">"fts_highlights"</span><br><span class="token punctuation">]</span><br><span class="token operator">|></span> <span class="token module class-name">Enum</span><span class="token punctuation">.</span><span class="token function">each</span><span class="token punctuation">(</span><span class="token keyword">fn</span> fts_table <span class="token operator">-></span><br>  <span class="token keyword">defp</span> <span class="token function">fts_match</span><span class="token punctuation">(</span>query<span class="token punctuation">,</span> <span class="token function">unquote</span><span class="token punctuation">(</span>fts_table<span class="token punctuation">)</span><span class="token punctuation">,</span> fts_query<span class="token punctuation">)</span> <span class="token keyword">do</span><br>    from r <span class="token operator">in</span> query<span class="token punctuation">,</span><br>      <span class="token attr-name">where:</span> <span class="token function">fragment</span><span class="token punctuation">(</span><span class="token function">unquote</span><span class="token punctuation">(</span><span class="token string">"<span class="token interpolation"><span class="token delimiter punctuation">#{</span>fts_table<span class="token delimiter punctuation">}</span></span> match ?"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span>fts_query<span class="token punctuation">)</span><span class="token punctuation">,</span><br>      <span class="token attr-name">order_by:</span> r<span class="token punctuation">.</span>rank<br>  <span class="token keyword">end</span><br><span class="token keyword">end</span><span class="token punctuation">)</span></code></pre>
+<h2>is it good?</h2>
+<p>I stand by my characterization from the intro: sqlite fts5 is interesting and ~mostly works.  Would I reach for it
+again?  Sure, if I'm stuck in sqlite and want to write minimum app code :)  There are enough sharp edges that I wouldn't
+use it as-is for anything end user facing, but at the same time it's a nice addition to the toolkit for the
+quick-and-dirty use cases.</p>
+
+
+          </main>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
