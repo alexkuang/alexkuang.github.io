@@ -119,7 +119,7 @@ function MATCH in the requested context`:
 ```elixir
 def fts_match(query, fts_table, fts_query) do
   from r in query,
-    where: fragment(unquote("? match ?"), ^fts_query),
+    where: fragment(unquote("? match ?"), ^fts_table, ^fts_query),
     order_by: r.rank
 end
 ```
