@@ -8,10 +8,8 @@ Hello, world!
 ### /now
 
 - Living in New York
-- Starting a international payments [company](https://withparallax.com/)
-- Interested in holdcos, software micro PE, and business acquisition
-- Training olympic weightlifting
-- Recently bought a rental property for funsies
+- Sorting through my interests writing @ [Thing of the Week](https://thing.bikeshed.coffee)
+- Doing an [international payments company](https://withparallax.com/)
 
 ### /contact
 
