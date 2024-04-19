@@ -3,7 +3,7 @@ layout: base.html
 permalink: "/"
 ---
 
-Hello, world! Welcome to bikeshed.coffee, the personal site of Alex Kuang.
+Hello, world!
 
 ### /now
 
