@@ -9,26 +9,32 @@ title: bikeshed.coffee
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <link rel="stylesheet" href="{{ "/assets/reset.css" | url }}">
-    <link rel="stylesheet" href="{{ "/assets/prism-vsc-dark-plus.css" | url }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
 
     <style>
       body {
-        font: 16px/1.4 system-ui,Helvetica,sans-serif;
-        background: #18181b;
-        color: #e5e7eb;
+        font-size: 1rem;
+        font-family: "Source Sans 3",system-ui,Helvetica,sans-serif;
+        line-height: 1.5rem;
+        background: #F5F7FA;
+        color: #1F2933;
       }
       a {
-        color: #dc2626;
+        color: #03449E;
+        font-weight: 600;
         text-decoration: none;
       }
 
       a:hover {
-        color: #ef4444;
+        color: #0967D2;
       }
 
       h1, h2, h3, h4, h5, h6 {
-        line-height: 1.2;
-        margin: 1em 0 0.5em 0;
+        line-height: 1.2rem;
+        margin: 1rem 0 0.5rem 0;
       }
 
       ul {
