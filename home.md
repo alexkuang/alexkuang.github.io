@@ -15,5 +15,6 @@ Hello, world!
 
 I want to meet interesting people and nerd out about stuff.  The best way to get in touch is email: hi @ this domain.
 
-I'm also on the socials: [twitter](https://twitter.com/waffledotexe), [linkedin](https://www.linkedin.com/in/khxela/),
+I'm also on the socials: [sky app](https://bsky.app/profile/waffledotexe.bsky.social), [bird
+app](https://twitter.com/waffledotexe), [linkedin](https://www.linkedin.com/in/khxela/),
 [github](https://github.com/alexkuang)
