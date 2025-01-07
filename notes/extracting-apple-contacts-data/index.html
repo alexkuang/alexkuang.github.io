@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/assets/rajdhani.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/prism-coldark-dark.css">
+
+    <title>
+      
+        extracting apple contacts data | bikeshed.coffee
+      
+    </title>
+  </head>
+  <body class="h-full antialiased">
+    <div class="xl:mx-72 mx-8">
+      <h1 class="mt-4 text-2xl font-semibold text-purple-800 xl:mt-8">
+        <a href="/">bikeshed.coffee</a>
+      </h1>
+
+      <div class="h-full w-full my-4 xl:my-8 xl:flex xl:gap-8">
+  <main class="xl:max-w-3xl mb-8 xl:mb-0 grow">
+    <article class="prose xl:prose-lg">
+      <h2>extracting apple contacts data</h2>
+
+      <p>As part of building my <a href="/notes/personal-cloud/">personal cloud</a>, I want to back up my contacts data. Over the years this has been spread over
+a couple places: Google Contacts, various Apple / phone contacts, text files... But I figured Apple Contacts would be a
+good start.</p>
+<p>So first, the location. On my Mac, the contacts file lived in <code>~/Library/Application\ Support/AddressBook/Sources/SOME_UUID_HERE/AddressBook-v22.abcddb</code>. I do have iCloud syncing on and that seems to get
+dropped into <code>Sources/SOME_UUID_HERE</code>. For my usage I only had one folder under <code>Sources</code>. The file itself is, par for the
+Apple course, a sqlite file. I recommend exploring with <code>litecli</code>, by the same folks behind the excellent <code>pgclii</code>.</p>
+<p>From there, the primary table of interest is <code>ZABCDRECORD</code>, the main contact table that links to everything. Basically
+everything else is one-to-many (<code>ZABCDPHONENUMBER</code>, <code>ZABCDEMAILADDRESS</code>, <code>ZABCDSOCIALPROFILE</code>) joined on <code>ZOWNER = ZABCDRECORD.Z_PK</code>. Why all the funny Z and ZABCD prefixes? ¯\_(ツ)_/¯ I'd love to hear the stories behind those.</p>
+<p>Most of the data is self-explanatory, but birthday (<code>ZBIRTHDAY</code> and <code>ZBIRTHDAYYEARLESS</code>) took a little finessing:</p>
+<ul>
+<li>Both columns are stored as second offsets against the Apple CoreData epoch @ Jan 01 2001</li>
+<li>The time component of the timestamp is noon on the given date.</li>
+<li>When the year of the birthday is absent, they use the year 1604.</li>
+<li><code>ZBIRTHDAY</code> contains the full timestamp as specified above.</li>
+<li><code>ZBIRTHDAYYEARLESS</code> always uses the 1604 convention and seems like it's intended to be combined with <code>ZBIRTHDAYYEAR</code> to
+get the same info as <code>ZBIRTHDAY</code>. I'm guessing this is a backwards compatibility thing?</li>
+</ul>
+
+    </article>
+  </main>
+
+  
+
+</div>
+
+    </div>
+  </body>
+</html>

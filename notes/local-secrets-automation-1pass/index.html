@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/assets/rajdhani.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/prism-coldark-dark.css">
+
+    <title>
+      
+        local secrets automation with 1pass | bikeshed.coffee
+      
+    </title>
+  </head>
+  <body class="h-full antialiased">
+    <div class="xl:mx-72 mx-8">
+      <h1 class="mt-4 text-2xl font-semibold text-purple-800 xl:mt-8">
+        <a href="/">bikeshed.coffee</a>
+      </h1>
+
+      <div class="h-full w-full my-4 xl:my-8 xl:flex xl:gap-8">
+  <main class="xl:max-w-3xl mb-8 xl:mb-0 grow">
+    <article class="prose xl:prose-lg">
+      <h2>local secrets automation with 1pass</h2>
+
+      <p>One of the annoying things about running the <a href="/notes/personal-cloud/">personal cloud</a> is managing secrets (API keys, google creds, etc) for
+the bits that run locally on my laptop.</p>
+<p>So far I've just been shuffling these creds around local-only env files tied to a couple of start scripts. It's kind of
+a pain cause the files can't be shared or committed to GitHub for obvious reasons so I have to walk on glass every time
+I touch them. And lord help if I accidentally delete one of the files or get them mixed up somehow.</p>
+<p>Last week I finally got tired of the nonsense and automated it via 1Pass. Apparently they have a nifty <a href="https://developer.1password.com/docs/cli">command line
+package</a> that makes this pretty easy. (And if you're not running 1Pass or some
+password manager by now... What are you doing??)</p>
+<p>First bit is jamming all the local app secrets into their own vault + setting up a <a href="https://developer.1password.com/docs/service-accounts/get-started/">service
+account</a> for it. This makes it so the CLI start
+scripts just have access to those secrets, vs my entire 1Pass account:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">op</span> service-account create local-apps <span class="token parameter variable">--vault</span> local_apps:read_items</code></pre>
+<p>To actually use the secrets, set up a new env file with 1pass urls:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token assign-left variable">DATABASE_URL</span><span class="token operator">=</span><span class="token string">"op://local_apps/server_phoenix_settings_prod/database_url"</span>
+<span class="token assign-left variable">SECRET_KEY</span><span class="token operator">=</span><span class="token string">"op://local_apps/server_phoenix_settings_prod/secret_key"</span>
+<span class="token assign-left variable">AWS_ACCESS_KEY_ID</span><span class="token operator">=</span><span class="token string">"op://local_apps/server_aws_prod/username"</span>
+<span class="token assign-left variable">AWS_SECRET_ACCESS_KEY</span><span class="token operator">=</span><span class="token string">"op://local_apps/server_aws_prod/credential"</span>
+<span class="token assign-left variable">GOOGLE_CLIENT_ID</span><span class="token operator">=</span><span class="token string">"op://local_apps/server_google_prod/username"</span>
+<span class="token assign-left variable">GOOGLE_CLIENT_SECRET</span><span class="token operator">=</span><span class="token string">"op://local_apps/server_google_prod/credential"</span></code></pre>
+<p>Then op run injects them into the environment:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">op</span> run --env-file<span class="token operator">=</span><span class="token string">"./.deploy.env"</span> -- ./bin/server start</code></pre>
+<p>Now the local app secrets have all the usual 1Pass convenience: history tracking, sharing between machines, encryption
+at rest, etc. Plus I can (finally!) commit the 1pass env files to GitHub as part of the build.</p>
+
+    </article>
+  </main>
+
+  
+
+</div>
+
+    </div>
+  </body>
+</html>
