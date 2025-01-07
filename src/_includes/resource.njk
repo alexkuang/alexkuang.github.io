@@ -1,0 +1,20 @@
+---
+layout: root.njk
+---
+<div class="h-full w-full my-4 xl:my-8 xl:flex xl:gap-8">
+  <main class="xl:max-w-3xl mb-8 xl:mb-0i grow">
+    <h2 class="font-bold text-2xl mb-2 xl:leading-10 xl:text-3xl">{{ title }}</h2>
+    <a
+      href="{{ url }}"
+      class="font-medium text-lg xl:text-xl"
+      target="_blank"
+      rel="noopener noreferrer"
+    >{{ url }}</a>
+
+    <article class="prose xl:prose-lg mt-8">
+      {{ content | safe }}
+    </article>
+  </main>
+
+  {% include "backlinks.njk" %}
+</div>

@@ -1,16 +1,26 @@
 {
-  "name": "bikshed.coffee",
+  "name": "things-proto",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prettier": "prettier --write './**/*.js' './**/*.js'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  },
   "devDependencies": {
-    "@11ty/eleventy": "^1.0.1",
-    "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0"
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+    "@photogabble/eleventy-plugin-interlinker": "^1.1.0",
+    "@tailwindcss/typography": "^0.5.15",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "prettier": "^3.4.2",
+    "tailwindcss": "^3.4.17"
   }
 }
