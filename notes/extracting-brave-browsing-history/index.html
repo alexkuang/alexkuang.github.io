@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/assets/rajdhani.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/prism-coldark-dark.css">
+
+    <title>
+      
+        extracting brave browsing history | bikeshed.coffee
+      
+    </title>
+  </head>
+  <body class="h-full antialiased">
+    <div class="xl:mx-72 mx-8">
+      <h1 class="mt-4 text-2xl font-semibold text-purple-800 xl:mt-8">
+        <a href="/">bikeshed.coffee</a>
+      </h1>
+
+      <div class="h-full w-full my-4 xl:my-8 xl:flex xl:gap-8">
+  <main class="xl:max-w-3xl mb-8 xl:mb-0 grow">
+    <article class="prose xl:prose-lg">
+      <h2>extracting brave browsing history</h2>
+
+      <p>As part of building my personal cloud, I wanted to back up my browser history. This is useful for info mining and search
+purposes, but also because Brave (or Chromium?) starts dropping data after 90 days. Who knew. The 90 day limit is
+hard-coded, so data loss is unavoidable without an export.</p>
+<p>So first, the location. On Macs this is <code>~/Library/Application Support/BraveSoftware/Brave-Browser/[Default || Profile N]/History/brave_history.sqlite</code>.</p>
+<p>For chrome, the location is similar <code>~/Library/Application Support/BraveSoftware/Google/Chrome/[Default || Profile N]/History</code>.</p>
+<p>The history is kept in a sqlite database, either brave_history.sqlite or History. It's usually locked while the browser
+process is running, but a quick hack is to make a copy of the file to a temp location to make it read/write-able.</p>
+<p>From there, the usual sqlite exploration tools work. I recommend <code>litecli</code>, by the same folks behind the excellent pgcli.
+An example query to extract browsing history into denormalized rows to throw into a csv or what have you:</p>
+<pre class="language-sql"><code class="language-sql"><span class="token keyword">select</span>
+  v<span class="token punctuation">.</span>id<span class="token punctuation">,</span>
+  v<span class="token punctuation">.</span>visit_time<span class="token punctuation">,</span>
+  u<span class="token punctuation">.</span>url <span class="token keyword">as</span> url<span class="token punctuation">,</span>
+  u<span class="token punctuation">.</span>title <span class="token keyword">as</span> url_title
+<span class="token keyword">from</span>
+  visits v
+<span class="token keyword">inner</span> <span class="token keyword">join</span> urls u
+  <span class="token keyword">on</span> v<span class="token punctuation">.</span>url <span class="token operator">=</span> u<span class="token punctuation">.</span>id<span class="token punctuation">;</span></code></pre>
+<p>A quick note on <code>visit_time</code>: it is not milliseconds from unix epoch, as I had initially expected. It's actually
+microseconds from the win32 epoch, which is Jan 1 1601 00:00:00 UTC. To get to unix epoch millis, subtract
+11644473600000000 from <code>visit_time</code> and divide by 1000.</p>
+
+    </article>
+  </main>
+
+  
+
+</div>
+
+    </div>
+  </body>
+</html>
