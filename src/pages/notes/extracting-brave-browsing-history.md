@@ -2,7 +2,7 @@
 title: extracting brave browsing history
 ---
 
-As part of building my personal cloud, I wanted to back up my browser history. This is useful for info mining and search
+As part of building my [[personal cloud]], I wanted to back up my browser history. This is useful for info mining and search
 purposes, but also because Brave (or Chromium?) starts dropping data after 90 days. Who knew. The 90 day limit is
 hard-coded, so data loss is unavoidable without an export.
 

@@ -12,8 +12,9 @@ permalink: "/"
 Welcome to my corner of the internet.  Think of it as a sort of combo public-wiki-slash-brain-dump-slash-website.  I think
 the cool kids call it a "digital garden."
 
-In the future there may be a fancy feed / getting started thing.  For now, the best place to start is probably the
-latest GitHub commits.
+In the future there may be a fancy feed / getting started thing.  For now, the best place to start is probably browsing
+[the source](https://github.com/alexkuang/alexkuang.github.io/tree/main/src/pages/notes) or the
+latest [GitHub commits](https://github.com/alexkuang/alexkuang.github.io/commit/HEAD).
 
 Usual disclaimers:
 - Everything here is provided on an "as is" basis, without warranties or conditions of any kind, (etc etc :)  Per laws
