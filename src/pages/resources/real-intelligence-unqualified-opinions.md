@@ -1,0 +1,26 @@
+---
+title: Real Intelligence (Unqualified Opinions)
+url: https://www.permanentequity.com/unqualified-opinions-roll/real-intelligence
+---
+
+Case of AI usage outside of the usual techno-sphere.
+
+> artificial intelligence (AI) was now handling some 40% of customer service inquiries and that that number had
+> increased from just 10% in a few short months.
+>
+> Someone else, listening in on the conversation, asked if his in-house customer service team, seeing this trend, feared
+> for their jobs? But Kevin said no, that they loved the AI because **it enabled them to spend more time solving the
+> customer service inquiries that required depth of touch**
+
+(emphasis mine)
+
+[[build mech suits, not robots]]
+
+> there are small problems that are best handled quickly and complicated problems that are best handled carefully.
+> Further, while handling the small problems quickly can show up almost immediately on the income statement in the form
+> of revenue retention, it’s handling the complicated problems carefully that can create tremendous lifetime value and
+> turn your customers into zealots who will proselytize for your brand.
+
+> So an interesting thing to think about is which problems in your business might require *real* intelligence.
+> Because in the end, that’s my hope for AI. That it can take away from us the things we spend time on that make us less real and less human, so, like Rylee + Cru’s customer service team, we can spend more time on the things that make us just that.
+
