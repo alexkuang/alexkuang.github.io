@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/assets/rajdhani.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/prism-coldark-dark.css">
+
+    <title>
+      
+        Your AI Product Needs Evals | bikeshed.coffee
+      
+    </title>
+  </head>
+  <body class="h-full antialiased">
+    <div class="xl:mx-72 mx-8">
+      <h1 class="mt-4 text-2xl font-semibold text-purple-800 xl:mt-8">
+        <a href="/">bikeshed.coffee</a>
+      </h1>
+
+      <div class="h-full w-full my-4 xl:my-8 xl:flex xl:gap-8">
+  <main class="xl:max-w-3xl mb-8 xl:mb-0i grow">
+    <h2 class="font-bold text-2xl mb-2 xl:leading-10 xl:text-3xl">Your AI Product Needs Evals</h2>
+    <a
+      href="https://hamel.dev/blog/posts/evals/"
+      class="font-medium text-lg xl:text-xl"
+      target="_blank"
+      rel="noopener noreferrer"
+    >https://hamel.dev/blog/posts/evals/</a>
+
+    <article class="prose xl:prose-lg mt-8">
+      <p>Evals are key in bridging the <a href="/notes/ai-demo-product-chasm/">AI demo-product chasm</a>.</p>
+<blockquote>
+<p>Unlike typical unit tests, you want to organize these assertions for use in places beyond unit tests, such as data
+cleaning and automatic retries (using the assertion error to course-correct) during model inference.</p>
+</blockquote>
+<blockquote>
+<p>One signal you are writing good tests and assertions is when the model struggles to pass them - these failure modes
+become problems you can solve with techniques like fine-tuning later on.</p>
+</blockquote>
+<p>Smells a bit like &quot;TDD, but for AI&quot;</p>
+<blockquote>
+<p>unlike traditional unit tests, you don’t necessarily need a 100% pass rate. Your pass rate is a product decision,
+depending on the failures you are willing to tolerate.</p>
+</blockquote>
+<p>Another frame for this is sample size.  Model output is not deterministic, so how many runs do you give a test to pass?
+Anecdotally, lots of folks seem to go &quot;<em>shrug</em> 3-5 runs for acceptance?&quot;</p>
+<blockquote>
+<p>Fine-tuning is best for learning syntax, style, and rules, whereas techniques like RAG supply the model with context
+or up-to-date facts.</p>
+</blockquote>
+<blockquote>
+<p>99% of the labor involved with fine-tuning is assembling high-quality data that covers your AI product’s surface area.
+However, if you have a solid evaluation system like Rechat’s, you already have a robust data generation and curation
+engine!</p>
+</blockquote>
+
+    </article>
+  </main>
+
+  
+
+</div>
+
+    </div>
+  </body>
+</html>
