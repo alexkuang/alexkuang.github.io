@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/assets/rajdhani.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/prism-coldark-dark.css">
+
+    <title>
+      
+        shopify for saas | bikeshed.coffee
+      
+    </title>
+  </head>
+  <body class="h-full antialiased">
+    <div class="xl:mx-72 mx-8">
+      <h1 class="mt-4 text-2xl font-semibold text-purple-800 xl:mt-8">
+        <a href="/">bikeshed.coffee</a>
+      </h1>
+
+      <div class="h-full w-full my-4 xl:my-8 xl:flex xl:gap-8">
+  <main class="xl:max-w-3xl mb-8 xl:mb-0 grow">
+    <article class="prose xl:prose-lg">
+      <h2>shopify for saas</h2>
+
+      <p>What could a &quot;Shopify for SaaS companies&quot; look like? Shopify helps with undifferentiated heavy lifting in ecomm: user
+registration + login, order status emails, cart management, etc. With Shopify, merchants are free to focus on the core
+unique competitive parts of their business: making + selling their product.</p>
+<p>It feels like there's the same sort of undifferentiated heavy lifting in building a SaaS business, so what's the
+equivalent? This turned into a long one so hold onto your butts, y'all.</p>
+<h3>Users + everything around them</h3>
+<p>A &quot;Shopify for SaaS&quot; has to be built around customer data. Every SaaS company has some notion of a customer account,
+from an individual user up to an organization of multiple teams of users. Managing user records requires user login /
+registration as a minimum. Teams of users requires support for roles and permissions, e.g. &quot;only a team manager can add
+a user to a team.&quot; This is well-trodden territory, with both <a href="https://aws.amazon.com/cognito/">enterprise players</a> and
+startups that are mature enough to have <a href="https://auth0.com/blog/okta-acquisition-announcement/">exited</a>.</p>
+<p>What's missing is connecting these records to everything else:</p>
+<ul>
+<li>Managing billing against product functionality, e.g. &quot;only enterprise tier customers can access X feature,&quot; &quot;customer
+A only has N credits left.&quot;</li>
+<li>Attribution of a customer to a marketing campaign, traffic source, or CRM lead. Sending information back into the
+original CRM for upsells and other post-sale activity.</li>
+<li>Syncing with customer service software so that requests can be triaged for existing customers vs new users, tier of
+customer, etc.</li>
+<li>Other functionality that's somewhat tied to the product lifecycle but generic to the business, e.g. user referral
+program management.</li>
+<li>These are all items that 1) most SaaS companies need to grow and operate, 2) suck up a lot of resources usually in the
+form of developer time + operations debt, but 3) are not part of the business' core offering.</li>
+</ul>
+<h3>What I like a lot</h3>
+<ul>
+<li>Solving this problem reduces the amount of toil required for SaaS businesses and is a net good for the world.</li>
+<li>Developers are typically the costliest resource in a software company, so it's very much in businesses' interest to
+only allocate dev time to work that will make or break the business.</li>
+<li>As a kicker, this type of work is tedious scut work for 99% of developers – I say this with all the love of having
+built at least half a dozen such systems. They'd rather be working on a cool customer-facing feature, and so probably
+will drag their feet at the prospect of Yet Another Marketo Sync.</li>
+<li>Big switching cost moat. Ripping out a user reg system is already nerve-wracking on the best of days. Replacing that +
+everything else? Forget it.</li>
+<li>Unlike ~most SaaS ideas these days, product + architecture can be an enduring competitive advantage. Tacit knowledge
+of vendors' APIs + idiosyncrasies, followed by effectively managing and abstracting that away from the customer, adds
+up to some serious <a href="https://7powers.com/">process power</a>.</li>
+</ul>
+<h3>What I like less</h3>
+<ul>
+<li>Tight timing window for sales and likely a looong ramp to revenue growth. Getting an existing company to adopt a new
+solution is hard because of switching costs. Prospects need to be found and closed just as they're starting a product
+buildout, and most people do not start new companies (or even products) that often.</li>
+<li>The large surface area can make it hard to gain momentum without a large up-front investment. e.g. it's hard to get
+operational leverage on your Zendesk integration if your first five customers want to use Zendesk, Intercom,
+Freshdesk, and Helpscout.</li>
+<li>Market education will contribute to the cold start problem. Founders today do not commonly search for a solution in
+this shape, e.g. there are no google keywords to go bid up as far as I know. Market awareness needs to be built from
+scratch, which is a long and arduous grind.</li>
+<li>I believe that &quot;a great strength is also a weakness&quot; (and vice versa). So unsurprisingly, a lot of the con's here are
+just the other side of the coin for the pro's. All that said, what are some angles of attack?</li>
+</ul>
+<h3>Possible approaches</h3>
+<h4>productized consulting</h4>
+<ul>
+<li>Customer comes to you, says &quot;We're building a b2b saas that does [...] It's got a few tiers of flat monthly fees and
+customers will likely need teams, [...]&quot; With that info, determine the most likely combination that they will need.</li>
+<li>Deliver a &quot;product-in-a-box.&quot; This can be a code repo in a popular tech stack, e.g. Rails, Next.js, Laravel, etc.
+Include boilerplate for integrating with all the bits needed in their stack: Zendesk, Hubspot, Stripe, and so on. Just
+put in the API keys and go.</li>
+<li>Going further: a done-for-you tier. Sign up for the relevant services with best practice setups. Instead of a code
+repo, there is now a deployed PoC with everything fully plugged in and ready for dev. Hand over a 1Pass vault with all
+the credentials. Batteries (and API keys) included.</li>
+<li>Hang around startup accelerators, incubators, etc, and offer these services to start. This is a good way to gauge
+demand + fit. If one is determined to not take funding, revenue from this consulting could be used to bootstrap a
+sustainable product.</li>
+</ul>
+<h4>integrations as a service</h4>
+<ul>
+<li>Deliver a middleware SaaS application (let's call it SaaSify) that sits as an intermediary between the main product
+and all the other service providers.</li>
+<li>Developers get a single, sane, vendor-agnostic API for users, application-level events, CRM sync, etc. SaaSify helps
+normalize all data passing through the systems, e.g. phone and country code formats, email case sensitivity, timestamp
+time zones.</li>
+<li>SaaSify also handles common API infra operations. Where possible, it automatically handles concerns like idempotency,
+retries, rate limiting, etc. It nudges towards best practice for all implementations.</li>
+<li>Folks in operations, marketing, etc get a polished admin panel that represents a single source of truth for the user.
+Information is easily shared between teams because it's living in one place and reflecting the data across different
+systems.</li>
+<li>Staff can perform common tasks like updating customer billing info in SaaSify, or jump out to the specific vendor for
+more involved work. Information is synced back and forth automatically.</li>
+</ul>
+<h4>oracle, but make it sexy</h4>
+<ul>
+<li>I feel like modern tech startup workers have an instinctual ick for the likes of Oracle and SAP, but I'm going to drop
+this here anyway. What if it's time for a
+<a href="https://hbr.org/2014/06/how-to-succeed-in-business-by-bundling-and-unbundling">re-bundling</a> of SaaS company
+infrastructure?</li>
+<li>The current abundance of separate products per function has offered endless flexibility, but everyone I've talked to
+has gotten tired of managing it all – not to mention the $$. Now that
+<a href="https://en.wikipedia.org/wiki/Zero_interest-rate_policy">ZIRP</a> is over by most accounts, folks are starting to pay
+more attention to their burn rate – and by extension, the total cost of their piecemeal application
+stack.</li>
+<li>Is there finally room in the market for a fully integrated solution again? Would people go for a product that does
+their CRM, user reg, billing, email flows, etc? One that offers 80% of the functionality of separate apps for, say,
+50% of the price and 30% of the complexity? &quot;Oracle, but not shit and made for modern tech companies&quot;?</li>
+<li>'cause let's be real here, even assuming we know what &quot;best in class&quot; means, is e.g. helpdesk software choice really
+moving the needle for the business? Is a handful of incremental features in Zendesk vs Intercom really going to make
+or break the company? Or will it make a bigger impact to spend less time futzing with 23 SaaSes and more time thinking
+about the business' customer and core product?</li>
+<li>Those aren't rhetorical questions, by the way. I honestly have no idea if such a thing would fly right now. Just
+throwing the idea out there.</li>
+</ul>
+<h3>Final thoughts</h3>
+<p>I first thought about &quot;Shopify for SaaS&quot; circa ~2020-21 while considering startup ideas. Flash forward
+to 2024 and I think this is still as real a problem as before. Is this the right shape of solution and can a real
+business can be built around it? Well, that's the question isn't it.</p>
+
+    </article>
+  </main>
+
+  
+
+</div>
+
+    </div>
+  </body>
+</html>

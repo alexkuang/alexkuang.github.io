@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/assets/rajdhani.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/prism-coldark-dark.css">
+
+    <title>
+      
+        corporate wrench attack | bikeshed.coffee
+      
+    </title>
+  </head>
+  <body class="h-full antialiased">
+    <div class="xl:mx-72 mx-8">
+      <h1 class="mt-4 text-2xl font-semibold text-purple-800 xl:mt-8">
+        <a href="/">bikeshed.coffee</a>
+      </h1>
+
+      <div class="h-full w-full my-4 xl:my-8 xl:flex xl:gap-8">
+  <main class="xl:max-w-3xl mb-8 xl:mb-0 grow">
+    <article class="prose xl:prose-lg">
+      <h2>corporate wrench attack</h2>
+
+      <p>I came across this blog series from Kin, a personal AI startup, about privacy in in personal AIs: https://blog.mykin.ai/p/privacy-in-personal-ai</p>
+<p>The first three parts were quite good, and do a decent job covering 1) why we should care about privacy for this use
+case, and 2) high level technical approaches used to preserve privacy while balancing usability tradeoffs.  I'd
+recommend a read for anyone interested in the topic of data privacy inside and outside of AI.</p>
+<p>My biggest issue is not with them specifically, but a trend I see across ~80-90% of startups with privacy as a core
+value: they focus only on the technical and gloss over the social-but-still-very-real ways that privacy can be
+compromised.  At the end of the day, the company itself still a trusted party in the transaction, and a lot can go
+wrong.  Off the top of my head:</p>
+<ul>
+<li>CEO wakes up one day, decides privacy is overrated vs product velocity, and updates the system to undo a lot of the
+fancy encryption stuff so they can Move Faster(TM).</li>
+<li>CEO gets hit by a truck, control of the company goes to a stakeholder, perhaps a family member, who is decidedly less
+privacy-friendly.</li>
+<li>Company needs to juice revenue for a raise, decides they want the money from selling data, ideology be damned.  Oh
+wait, <a href="https://www.reuters.com/technology/reddit-ai-content-licensing-deal-with-google-sources-say-2024-02-22/">that's not a hypothetical</a>.</li>
+<li>Company gets acquired and the acquirer decides that privacy is overrated and they'd rather have the money from selling
+data.  Or they just decide to sunset the project because it's a pain to maintain and develop.</li>
+</ul>
+<p>... And so on.  It's the corporate version of the <a href="https://xkcd.com/538/">wrench attack</a>.  Even with a flawless
+technical implementation, all it takes is one human factor.  Even if the code is fully public and attested, the median
+user is not going to read every update.</p>
+<p>For all their faults, <a href="https://en.wikipedia.org/wiki/Decentralized_autonomous_organization">DAOs</a> (remember when they
+were the &quot;future of work&quot; and the &quot;death of the traditional firm&quot;?) at least spent time thinking about the governance
+and legal structures that buttress the tech.  The great shame is most of them, to my knowledge, spent so much time on
+governance that very little other value was delivered.  Perhaps in the next crypto bull run?</p>
+
+    </article>
+  </main>
+
+  
+
+</div>
+
+    </div>
+  </body>
+</html>
