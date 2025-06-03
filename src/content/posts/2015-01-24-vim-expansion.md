@@ -28,8 +28,6 @@ special keywords.
 
 But wait!  There’s more!
 
-<!-- more -->
-
 Vim also supports file modifiers.  For example, `:h` gives you the ‘head’ of the file name, i.e. the directory of the
 file.  Taking another (contrived) example, you can git add the entire folder containing the file you are editing by
 doing something like:
