@@ -1,12 +1,16 @@
 ---
 import Root from "src/layouts/Root.astro";
 import { getPosts } from "src/util";
+import { getExcerpt } from "src/excerpt";
 import { render } from "astro:content";
+
+const defaultExcerptLimit = 500;
 
 const posts = await Promise.all(
   (await getPosts()).map(async (p) => ({
     ...p,
     content: await render(p),
+    excerptLimit: p.data.excerptChars || defaultExcerptLimit,
   })),
 );
 ---
@@ -24,7 +28,14 @@ const posts = await Promise.all(
             </h3>
           )}
 
-          <post.content.Content />
+          {post.body.length > post.excerptLimit ? (
+            <Fragment set:html={getExcerpt(post, post.excerptLimit)} />
+            <p>
+              [... <a href={`/posts/${post.id}/`} class="text-violet-800 no-underline font-normal">more</a>]
+            </p>
+          ) : (
+            <post.content.Content />
+          )}
 
           <div class="text-sm text-gray-500">
             {post.publishedAt.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
