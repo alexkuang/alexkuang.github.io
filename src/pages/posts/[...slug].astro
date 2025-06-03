@@ -25,7 +25,9 @@ const { Content } = await render(post);
 
       <Content />
 
-      <div class="text-sm text-gray-500">{post.publishedAt.toLocaleString()}</div>
+      <div class="text-sm text-gray-500">
+        {post.publishedAt.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
+      </div>
     </article>
   </div>
 </Root>
