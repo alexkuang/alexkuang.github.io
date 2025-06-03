@@ -19,7 +19,7 @@ const { Content } = await render(post);
 ---
 
 <Root title={post.data.title ? `${post.data.title} | bikeshed.coffee` : "bikeshed.coffee"}>
-  <div class="mt-8 flex flex-col items-center">
+  <div class="mt-8 flex flex-col items-center pb-8">
     <article class="prose prose-lg w-full">
       {post.data.title && <h1 class="text-violet-800">{post.data.title}</h1>}
 
