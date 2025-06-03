@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "eslint": "eslint 'src/**/*.{ts,tsx,astro,mdx}'",
-    "prettier": "prettier --write '**/*.{ts,tsx,astro,md,mdx,css}'"
+    "prettier": "prettier --write '**/*.{ts,tsx,astro,md,mdx,css}'",
+    "poast": "node scripts/poast.js"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.6",
@@ -20,6 +21,7 @@
     "@tailwindcss/typography": "^0.5.16",
     "eslint": "^9.26.0",
     "eslint-plugin-astro": "^1.3.1",
+    "nanoid": "^5.1.5",
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-organize-imports": "^4.1.0",
