@@ -12,15 +12,17 @@ const posts = await Promise.all(
 ---
 
 <Root title="bikeshed.coffee">
-  <div class="mx-auto mt-8 flex max-w-5xl flex-col items-center space-y-8">
+  <div class="mt-8 flex flex-col items-center space-y-8">
     {
       posts.map((post) => (
         <article class="prose prose-lg w-full">
-          <h3>
-            <a href={`/posts/${post.id}/`} class="text-violet-800 no-underline">
-              {post.data.title}
-            </a>
-          </h3>
+          {post.data.title && (
+            <h3>
+              <a href={`/posts/${post.id}/`} class="text-violet-800 no-underline">
+                {post.data.title}
+              </a>
+            </h3>
+          )}
 
           <post.content.Content />
 

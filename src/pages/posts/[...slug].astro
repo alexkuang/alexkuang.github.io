@@ -6,6 +6,7 @@ import { render } from "astro:content";
 
 export async function getStaticPaths() {
   const posts = await getPosts();
+
   return posts.map((post) => ({
     params: { slug: post.id },
     props: post,
@@ -17,12 +18,10 @@ const post = Astro.props;
 const { Content } = await render(post);
 ---
 
-<Root title=`${post.data.title} | bikeshed.coffee`>
-  <div class="mx-auto mt-8 flex max-w-5xl flex-col items-center">
+<Root title={post.data.title ? `${post.data.title} | bikeshed.coffee` : "bikeshed.coffee"}>
+  <div class="mt-8 flex flex-col items-center">
     <article class="prose prose-lg w-full">
-      <h1 class="text-violet-800">
-        {post.data.title}
-      </h1>
+      {post.data.title && <h1 class="text-violet-800">{post.data.title}</h1>}
 
       <Content />
 
