@@ -1,9 +1,32 @@
 ---
 import Root from "src/layouts/Root.astro";
+import { getPosts } from "src/util";
+import { render } from "astro:content";
+
+const posts = await Promise.all(
+  (await getPosts()).map(async (p) => ({
+    ...p,
+    content: await render(p),
+  })),
+);
 ---
 
 <Root title="bikeshed.coffee">
-  <div class="p-4 max-w-5xl mx-auto">
-    ⚠️ under construction ⚠️
+  <div class="mx-auto mt-8 flex max-w-5xl flex-col items-center space-y-8">
+    {
+      posts.map((post) => (
+        <article class="prose prose-lg w-full">
+          <h3>
+            <a href={`/posts/${post.id}/`} class="text-violet-800 no-underline">
+              {post.data.title}
+            </a>
+          </h3>
+
+          <post.content.Content />
+
+          <div class="text-sm text-gray-500">{post.publishedAt.toLocaleString()}</div>
+        </article>
+      ))
+    }
   </div>
 </Root>

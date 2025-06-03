@@ -1,0 +1,32 @@
+---
+import Root from "src/layouts/Root.astro";
+import { getPosts } from "src/util";
+import { type CollectionEntry, getCollection } from "astro:content";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: post,
+  }));
+}
+type Props = CollectionEntry<"post">;
+
+const post = Astro.props;
+const { Content } = await render(post);
+---
+
+<Root title=`${post.data.title} | bikeshed.coffee`>
+  <div class="mx-auto mt-8 flex max-w-5xl flex-col items-center">
+    <article class="prose prose-lg w-full">
+      <h1 class="text-violet-800">
+        {post.data.title}
+      </h1>
+
+      <Content />
+
+      <div class="text-sm text-gray-500">{post.publishedAt.toLocaleString()}</div>
+    </article>
+  </div>
+</Root>
