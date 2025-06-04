@@ -19,10 +19,10 @@ const posts = await Promise.all(
   <div class="mt-8 flex flex-col items-center space-y-16 pb-8 px-4">
     {
       posts.map((post) => (
-        <article class="prose w-full prose-neutral prose-img:mx-auto prose-img:my-auto">
+        <article class="prose w-full prose-neutral dark:prose-invert prose-img:mx-auto prose-img:my-auto">
           {post.data.title && (
             <h3>
-              <a href={`/posts/${post.id}/`} class="text-violet-800 no-underline font-semibold">
+              <a href={`/posts/${post.id}/`} class="text-violet-800 dark:text-violet-200 no-underline font-semibold">
                 {post.data.title}
               </a>
             </h3>
@@ -31,13 +31,13 @@ const posts = await Promise.all(
           {post.body.length > post.excerptLimit ? (
             <Fragment set:html={getExcerpt(post, post.excerptLimit)} />
             <p>
-              [... <a href={`/posts/${post.id}/`} class="text-violet-800 no-underline font-normal">more</a>]
+              [... <a href={`/posts/${post.id}/`} class="text-violet-800 dark:text-violet-200 no-underline font-normal">more</a>]
             </p>
           ) : (
             <post.content.Content />
           )}
 
-          <div class="text-sm text-gray-600">
+          <div class="text-sm text-gray-600 dark:text-gray-400">
             {post.publishedAt.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
           </div>
         </article>
