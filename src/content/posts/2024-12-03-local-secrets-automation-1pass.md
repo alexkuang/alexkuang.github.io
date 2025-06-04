@@ -1,6 +1,6 @@
 ---
 title: local secrets automation with 1pass
-publishedAt: "2024-12-03T00:00:00-04:00"
+publishedAt: "2024-12-03T00:00:00-05:00[America/New_York]"
 ---
 
 One of the annoying things about running the personal cloud is managing secrets (API keys, google creds, etc) for

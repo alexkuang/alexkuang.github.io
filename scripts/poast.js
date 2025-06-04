@@ -30,8 +30,9 @@ function getTodayISO() {
   // Format offset as ±HH:MM
   const sign = offsetMinutes <= 0 ? '+' : '-';
   const offsetString = `${sign}${offsetHours.toString().padStart(2, '0')}:${offsetMins.toString().padStart(2, '0')}`;
+  const idString = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  return `${isoDate}T00:00:00${offsetString}`;
+  return `${isoDate}T00:00:00${offsetString}[${idString}]`;
 }
 
 function main() {

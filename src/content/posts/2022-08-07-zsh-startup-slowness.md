@@ -1,6 +1,6 @@
 ---
 title: zsh startup slowness
-publishedAt: "2022-08-07T00:00:00-04:00"
+publishedAt: "2022-08-07T00:00:00-04:00[America/New_York]"
 ---
 
 For a while now I've felt like my zsh has been starting up more and more slowly. It's one of those small annoyances that

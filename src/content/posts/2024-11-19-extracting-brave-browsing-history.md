@@ -1,6 +1,6 @@
 ---
 title: extracting brave browsing history
-publishedAt: "2024-11-19T00:00:00-04:00"
+publishedAt: "2024-11-19T00:00:00-05:00[America/New_York]"
 ---
 
 As part of building my personal cloud, I wanted to back up my browser history. This is useful for info mining and search

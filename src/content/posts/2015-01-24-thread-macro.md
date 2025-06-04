@@ -1,6 +1,6 @@
 ---
 title: "thread macro"
-publishedAt: "2015-01-24T00:00:00-04:00"
+publishedAt: "2015-01-24T00:00:00-05:00[America/New_York]"
 ---
 
 Let’s talk about clojure for a bit.  Or lisps in general, I guess.  A lot of the “kinda joking except not really” quips

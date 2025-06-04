@@ -1,6 +1,6 @@
 ---
 title: rule of thirds
-publishedAt: "2024-01-07T00:00:00-04:00"
+publishedAt: "2025-01-07T00:00:00-05:00[America/New_York]"
 ---
 
 > When you're chasing a big goal, you're supposed to feel good a third of the time, okay a third of the time, and crappy

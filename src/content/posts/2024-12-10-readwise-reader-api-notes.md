@@ -1,6 +1,6 @@
 ---
 title: readwise + reader api notes
-publishedAt: "2024-12-10T00:00:00-04:00"
+publishedAt: "2024-12-10T00:00:00-05:00[America/New_York]"
 ---
 
 A few weeks back I switched from Raindrop to Readwise for my reading, highlights, and related notes. The main reason for

@@ -10,7 +10,7 @@ const posts = await Promise.all(
   (await getPosts()).map(async (p) => ({
     ...p,
     content: await render(p),
-    excerptLimit: p.data.excerptChars || defaultExcerptLimit,
+    excerptLimit: p.data.excerptLimit || defaultExcerptLimit,
   })),
 );
 ---

@@ -1,7 +1,7 @@
 
 ---
 title: app-stores-cause-saasification
-publishedAt: "2024-10-08T00:00:00-04:00"
+publishedAt: "2024-10-08T00:00:00-04:00[America/New_York]"
 ---
 
 Yesterday I was editing a photo on my phone when I got hit with a prompt: $3.99/mo for premium features!  It really

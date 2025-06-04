@@ -1,6 +1,6 @@
 ---
 title: Roam Research impressions
-publishedAt: "2020-12-10T00:00:00-04:00"
+publishedAt: "2020-12-10T00:00:00-05:00[America/New_York]"
 ---
 
 [Roam Research](http://roamresearch.com/) is the darling of the latest wave of knowledge management / note-taking apps.

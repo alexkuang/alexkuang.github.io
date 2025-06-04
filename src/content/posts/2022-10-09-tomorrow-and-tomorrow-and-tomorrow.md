@@ -1,6 +1,6 @@
 ---
 title: tomorrow and tomorrow and tomorrow
-publishedAt: "2022-10-09T00:00:00-04:00"
+publishedAt: "2022-10-09T00:00:00-04:00[America/New_York]"
 ---
 
 Just finished reading [Tomorrow, and Tomorrow, and Tomorrow](https://www.amazon.com/Tomorrow-novel-Gabrielle-Zevin/dp/0593321200/)

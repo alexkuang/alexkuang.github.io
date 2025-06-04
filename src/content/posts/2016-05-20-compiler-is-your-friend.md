@@ -1,6 +1,6 @@
 ---
 title: the compiler is your friend
-publishedAt: "2016-05-20T00:00:00-04:00"
+publishedAt: "2016-05-20T00:00:00-04:00[America/New_York]"
 ---
 
 One sentiment I see from people coming from dynamically typed languages (python, ruby) or even Java and C is a general

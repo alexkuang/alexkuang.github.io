@@ -1,6 +1,6 @@
 ---
 title: zero-based
-publishedAt: "2024-05-24T00:00:00-04:00"
+publishedAt: "2024-05-24T00:00:00-04:00[America/New_York]"
 ---
 
 I first saw "zero-based budgeting" in some leisurely weekend reading on private equity firms (I know, party animal

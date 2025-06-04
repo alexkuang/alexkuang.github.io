@@ -1,6 +1,6 @@
 ---
 title: :label in elixir's IO.inspect
-publishedAt: "2020-12-05T00:00:00-04:00"
+publishedAt: "2020-12-05T00:00:00-05:00[America/New_York]"
 ---
 
 `IO.inspect` is great for println debugging, and generally "does the right thing" with just about any input you throw at

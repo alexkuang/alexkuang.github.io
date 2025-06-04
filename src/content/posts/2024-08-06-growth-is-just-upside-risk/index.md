@@ -1,7 +1,6 @@
 ---
 title: growth is just upside risk
-publishedAt: "2024-08-06T00:00:00-04:00"
-excerptChars: 500
+publishedAt: "2024-08-06T00:00:00-04:00[America/New_York]"
 ---
 
 Lately we've been thinking about fundraising at work.  We've built a good product and a business with gathering momentum

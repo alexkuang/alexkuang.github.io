@@ -1,7 +1,7 @@
 
 ---
 title: aspiration-first vs reality-first
-publishedAt: "2024-10-15T00:00:00-04:00"
+publishedAt: "2024-10-15T00:00:00-04:00[America/New_York]"
 ---
 
 Over the years I've noticed people seem to have two fundamental orientations towards goals: aspiration-first and

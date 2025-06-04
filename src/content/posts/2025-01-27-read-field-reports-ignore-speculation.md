@@ -1,6 +1,7 @@
 ---
 title: read field reports, ignore speculation
-publishedAt: "2024-01-27T00:00:00-04:00"
+publishedAt: "2025-01-27T00:00:00-05:00[America/New_York]"
+excerptLimit: 1000
 ---
 
 The easiest way to dodge the [The Creative World’s Bullshit Industrial Complex](https://www.behance.net/blog/the-creative-worlds-bullshit-industrial-complex)

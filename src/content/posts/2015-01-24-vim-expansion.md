@@ -1,6 +1,6 @@
 ---
 title: vim % expansion
-publishedAt: "2015-01-24T00:00:00-04:00"
+publishedAt: "2015-01-24T00:00:00-05:00[America/New_York]"
 ---
 
 ### % (Current File Name)

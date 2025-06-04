@@ -1,6 +1,6 @@
 ---
 title: full text search with sqlite
-publishedAt: "2023-01-30T00:00:00-04:00"
+publishedAt: "2023-01-30T00:00:00-05:00[America/New_York]"
 ---
 
 As a part work on an old project, I used [sqlite native fts](https://www.sqlite.org/fts5.html) for an MVP full text
