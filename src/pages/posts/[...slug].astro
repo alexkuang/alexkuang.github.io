@@ -20,12 +20,12 @@ const { Content } = await render(post);
 
 <Root title={post.data.title ? `${post.data.title} | bikeshed.coffee` : "bikeshed.coffee"}>
   <div class="mt-8 flex flex-col items-center px-4 pb-8">
-    <article class="prose prose-lg w-full">
+    <article class="prose w-full prose-neutral prose-img:mx-auto prose-img:my-auto">
       {post.data.title && <h1 class="text-violet-800">{post.data.title}</h1>}
 
       <Content />
 
-      <div class="text-sm text-gray-500">
+      <div class="text-sm text-gray-600">
         {post.publishedAt.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
       </div>
     </article>
