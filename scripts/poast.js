@@ -19,11 +19,11 @@ function getTodayString() {
 }
 
 function getTodayISO() {
-  const today = new Date();
-  const isoDate = today.toISOString().split('T')[0];
+  const now = new Date();
+  const isoDate = now.toISOString().split('T')[0];
 
   // Get local timezone offset in minutes, then convert to hours
-  const offsetMinutes = today.getTimezoneOffset();
+  const offsetMinutes = now.getTimezoneOffset();
   const offsetHours = Math.floor(Math.abs(offsetMinutes) / 60);
   const offsetMins = Math.abs(offsetMinutes) % 60;
 
@@ -32,7 +32,15 @@ function getTodayISO() {
   const offsetString = `${sign}${offsetHours.toString().padStart(2, '0')}:${offsetMins.toString().padStart(2, '0')}`;
   const idString = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  return `${isoDate}T00:00:00${offsetString}[${idString}]`;
+  // Format current local time
+  const year = now.getFullYear();
+  const month = (now.getMonth() + 1).toString().padStart(2, '0');
+  const day = now.getDate().toString().padStart(2, '0');
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+
+  return `${isoDate}T${hours}:${minutes}:${seconds}${offsetString}[${idString}]`;
 }
 
 function main() {
