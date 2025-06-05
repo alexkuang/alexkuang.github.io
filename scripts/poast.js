@@ -1,6 +1,7 @@
 import { writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import { customAlphabet } from 'nanoid';
+import { execSync } from 'child_process';
 
 const projectRoot = process.cwd();
 
@@ -74,6 +75,9 @@ ${title ? `title: "${title}"\n` : ''}publishedAt: "${publishedAt}"
   writeFileSync(filepath, content, 'utf8');
 
   console.log(`Created new post: ${filepath}`);
+
+  // Open the file
+  execSync(`vim ${filepath}`, { stdio: 'inherit' });
 }
 
 main();
