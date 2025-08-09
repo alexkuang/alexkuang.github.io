@@ -37,9 +37,8 @@ npm run poast "Title Here"  # Create post with specific title
 - Posts are sorted by `publishedAt` date using Temporal API
 
 ### Key Files
-- `src/content.config.ts`: Defines the posts collection schema with Zod validation
+- `src/content.config.ts`: Defines the posts collection schema with Zod validation and custom loader with excerpt pre-rendering
 - `src/util.ts`: Contains `getPosts()` which fetches and sorts all posts using Temporal
-- `src/excerpt.ts`: Custom excerpt generation that truncates posts at a character limit
 - `src/pages/index.astro`: Home page listing all posts with excerpts
 - `src/pages/posts/[...slug].astro`: Individual post pages
 - `scripts/poast.js`: Blog post creation script
@@ -61,5 +60,6 @@ npm run poast "Title Here"  # Create post with specific title
 - ESLint configured with Astro plugin (note: may have false positives with Astro component imports)
 - Prettier configured with Astro, Tailwind, and import organization plugins
 - Images for posts can be placed in subdirectories (e.g., `posts/2024-08-06-growth-is-just-upside-risk/assets/`)
-- Use `npm run astro check` for checking errors like with Typescript
+- Use `npm run astro check` for TypeScript checking instead of ESLint for Astro files
 - Post pages require `parsePost` utility to properly parse the `publishedAt` date with Temporal API
+- **Always run `npm run astro check && npm run build` after making changes to ensure everything compiles and builds correctly**
