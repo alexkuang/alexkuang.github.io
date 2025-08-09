@@ -28,7 +28,7 @@ const posts = await Promise.all(
             </h3>
           )}
 
-          {post.body?.length > post.excerptLimit ? (
+          {(post.body?.length ?? 0) > post.excerptLimit ? (
             <Fragment set:html={getExcerpt(post, post.excerptLimit)} />
             <p>
               [... <a href={`/posts/${post.id}/`} class="text-violet-800 dark:text-violet-200 no-underline font-normal">more</a>]

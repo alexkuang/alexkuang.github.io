@@ -1,7 +1,7 @@
 import { createMarkdownProcessor } from "@astrojs/markdown-remark";
-import { type CollectionEntry } from "astro:content";
 import { fromMarkdown } from "mdast-util-from-markdown";
 import { toMarkdown } from "mdast-util-to-markdown";
+import type { ParsedPost } from "./util";
 
 // This isn't the exact same pipeline as the current astro instance, but getting an exact match seems
 // non-straightforward at first glance.  certain things e.g. built-in `image` hrefs won't work properly, but Close
@@ -13,7 +13,7 @@ const renderer = await createMarkdownProcessor();
 // - walk through the nodes doing a best-effort limit to `maxChars`
 // - convert node back to markdown AST
 // - render to HTML
-export async function getExcerpt(post: CollectionEntry<"posts">, maxChars: number) {
+export async function getExcerpt(post: ParsedPost, maxChars: number) {
   const rawBody = post.body || "";
 
   const parsed = fromMarkdown(rawBody);
@@ -29,8 +29,6 @@ function truncateMarkdown(root: any, maxChars: number) {
   let processed: any[] = [];
 
   while (charsSoFar <= maxChars && head != undefined) {
-    const chars = head.value?.length || 0;
-
     const { charsConsumed, node } = truncateNode(head, maxChars - charsSoFar);
 
     charsSoFar += charsConsumed;
@@ -52,8 +50,6 @@ function truncateNode(node: any, maxChars: number) {
   let [head, ...tail] = node.children;
 
   while (charsSoFar <= maxChars && head != undefined) {
-    const chars = head.value?.length || 0;
-
     const { charsConsumed, node } = truncateNode(head, maxChars - charsSoFar);
 
     charsSoFar += charsConsumed;

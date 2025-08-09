@@ -19,6 +19,7 @@ npm run build        # Build to ./dist/
 npm run preview      # Preview production build
 
 # Code quality
+npm run astro check  # Run TypeScript type checking for Astro files
 npm run eslint       # Lint TypeScript/Astro files
 npm run prettier     # Format all code files
 
@@ -57,6 +58,8 @@ npm run poast "Title Here"  # Create post with specific title
 
 - Path aliases configured: `src/*` maps to `./src/*`
 - TypeScript strict mode enabled
-- ESLint configured with Astro plugin
+- ESLint configured with Astro plugin (note: may have false positives with Astro component imports)
 - Prettier configured with Astro, Tailwind, and import organization plugins
 - Images for posts can be placed in subdirectories (e.g., `posts/2024-08-06-growth-is-just-upside-risk/assets/`)
+- Use `npm run astro check` for checking errors like with Typescript
+- Post pages require `parsePost` utility to properly parse the `publishedAt` date with Temporal API
