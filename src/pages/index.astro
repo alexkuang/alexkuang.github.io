@@ -13,13 +13,13 @@ const posts = await Promise.all(
 ---
 
 <Root title="makeshift.computer">
-  <div class="mt-8 flex flex-col items-center space-y-16 pb-8 px-4">
+  <div class="mt-8 flex flex-col items-center space-y-16 px-4 pb-8">
     {
       posts.map((post) => (
-        <article class="prose w-full prose-neutral dark:prose-invert prose-img:mx-auto prose-img:my-auto">
+        <article class="prose w-full prose-zinc dark:prose-invert prose-img:mx-auto prose-img:my-auto">
           {post.data.title && (
             <h3>
-              <a href={`/posts/${post.id}/`} class="font-semibold text-violet-800 no-underline dark:text-violet-200">
+              <a href={`/posts/${post.id}/`} class="font-semibold no-underline">
                 {post.data.title}
               </a>
             </h3>
@@ -30,7 +30,7 @@ const posts = await Promise.all(
               <post.excerptContent.Content />
               <p>
                 [...{" "}
-                <a href={`/posts/${post.id}/`} class="font-normal text-violet-800 no-underline dark:text-violet-200">
+                <a href={`/posts/${post.id}/`} class="font-normal no-underline">
                   more
                 </a>
                 ]
@@ -40,7 +40,7 @@ const posts = await Promise.all(
             <post.content.Content />
           )}
 
-          <div class="text-sm text-gray-600 dark:text-gray-400">
+          <div class="text-sm">
             {post.publishedAt.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
           </div>
         </article>

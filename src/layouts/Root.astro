@@ -11,23 +11,23 @@ const { title } = Astro.props;
 
     <title>{title}</title>
   </head>
-  <body class="h-full bg-gray-100 antialiased dark:bg-gray-900">
+  <body class="h-full bg-zinc-50 antialiased dark:bg-zinc-950">
     <header class="mx-auto flex max-w-5xl items-center justify-between p-4">
-      <div class="font-semibold text-violet-900 dark:text-violet-200"><a href="/">makeshift.computer</a></div>
+      <div class="font-semibold uppercase"><a href="/">makeshift.computer</a></div>
 
       <div class="flex items-center space-x-4">
-        <nav class="space-x-2 font-medium text-gray-700 dark:text-gray-300">
+        <nav class="space-x-2 font-medium">
           <!--
           <span><a href="#">about</a></span>
           <span><a href="#">now</a></span>
           -->
         </nav>
 
-        <div class="isolate inline-flex rounded-xs bg-gray-50 dark:bg-gray-900">
+        <div class="isolate inline-flex rounded-xs bg-zinc-50 dark:bg-zinc-950">
           <button
             id="light-theme-button"
             type="button"
-            class="relative inline-flex items-center rounded-l-xs px-2 py-1 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-200 focus:z-10 dark:text-gray-300 dark:ring-gray-700 dark:hover:bg-gray-800"
+            class="relative inline-flex items-center rounded-l-xs px-2 py-1 text-sm font-semibold ring-1 ring-zinc-300 ring-inset hover:bg-zinc-100 focus:z-10 dark:ring-zinc-400 dark:hover:bg-zinc-900"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -48,7 +48,7 @@ const { title } = Astro.props;
           <button
             type="button"
             id="dark-theme-button"
-            class="relative -ml-px inline-flex items-center px-2 py-1 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-200 focus:z-10 dark:text-gray-300 dark:ring-gray-700 dark:hover:bg-gray-800"
+            class="relative -ml-px inline-flex items-center px-2 py-1 text-sm font-semibold ring-1 ring-zinc-300 ring-inset hover:bg-zinc-100 focus:z-10 dark:ring-zinc-400 dark:hover:bg-zinc-900"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +69,7 @@ const { title } = Astro.props;
           <button
             type="button"
             id="system-theme-button"
-            class="relative -ml-px inline-flex items-center rounded-r-xs px-2 py-1 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-200 focus:z-10 dark:text-gray-300 dark:ring-gray-700 dark:hover:bg-gray-800"
+            class="relative -ml-px inline-flex items-center rounded-r-xs px-2 py-1 text-sm font-semibold ring-1 ring-zinc-300 ring-inset hover:bg-zinc-100 focus:z-10 dark:ring-zinc-400 dark:hover:bg-zinc-900"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -153,13 +153,13 @@ const { title } = Astro.props;
 
       ["light", "dark", "system"].forEach((t) => {
         const button = document.getElementById(`${t}-theme-button`);
-        button?.classList.remove("bg-gray-200");
-        button?.classList.remove("dark:bg-gray-800");
+        button?.classList.remove("bg-zinc-200");
+        button?.classList.remove("dark:bg-zinc-800");
       });
 
       const activeButton = document.getElementById(`${theme}-theme-button`);
-      activeButton?.classList.add("bg-gray-200");
-      activeButton?.classList.add("dark:bg-gray-800");
+      activeButton?.classList.add("bg-zinc-200");
+      activeButton?.classList.add("dark:bg-zinc-800");
     }
 
     document.addEventListener("DOMContentLoaded", () => initTheme());

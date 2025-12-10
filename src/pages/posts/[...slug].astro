@@ -18,12 +18,12 @@ const { Content } = await render(post);
 
 <Root title={post.data.title ? `${post.data.title} | makeshift.computer` : "makeshift.computer"}>
   <div class="mt-8 flex flex-col items-center px-4 pb-8">
-    <article class="prose w-full prose-neutral dark:prose-invert prose-img:mx-auto prose-img:my-auto">
-      {post.data.title && <h1 class="text-violet-800">{post.data.title}</h1>}
+    <article class="prose w-full prose-zinc dark:prose-invert prose-img:mx-auto prose-img:my-auto">
+      {post.data.title && <h1>{post.data.title}</h1>}
 
       <Content />
 
-      <div class="text-sm text-gray-600">
+      <div class="text-sm">
         {post.publishedAt.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
       </div>
     </article>
