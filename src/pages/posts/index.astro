@@ -1,0 +1,54 @@
+---
+import Root from "src/layouts/Root.astro";
+import { getPosts } from "src/util";
+import { render } from "astro:content";
+
+const posts = await Promise.all(
+  (await getPosts()).map(async (p) => ({
+    ...p,
+    content: await render(p),
+    excerptContent: p.data.excerpt && (await render(p.data.excerpt as any)),
+  })),
+);
+---
+
+<Root title="makeshift.computer">
+  <div
+    class="mt-8 flex flex-col items-center justify-items-center space-y-8 divide-y divide-zinc-200 px-4 pb-8 dark:divide-zinc-700"
+  >
+    {
+      posts.map((post) => (
+        <article class="prose w-full pb-8 tracking-tight prose-zinc dark:prose-invert prose-img:mx-auto prose-img:my-auto">
+          {post.data.title && (
+            <h2>
+              <a href={`/posts/${post.id}/`} class="font-semibold no-underline hover:underline">
+                {post.data.title}
+              </a>
+            </h2>
+          )}
+
+          {post.excerptContent ? (
+            <>
+              <post.excerptContent.Content />
+              <p>
+                [
+                <a href={`/posts/${post.id}/`} class="font-normal no-underline hover:underline">
+                  ... more
+                </a>
+                ]
+              </p>
+            </>
+          ) : (
+            <post.content.Content />
+          )}
+
+          <div class="text-sm">
+            {post.publishedAt.minute === 0 && post.publishedAt.second === 0
+              ? post.publishedAt.toLocaleString("en-US", { dateStyle: "medium" })
+              : post.publishedAt.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</Root>
