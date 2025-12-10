@@ -2,7 +2,7 @@ import type { Loader } from "astro/loaders";
 import { glob } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
 
-const DEFAULT_EXCERPT_LIMIT = 800;
+const DEFAULT_EXCERPT_LIMIT = 400;
 
 function truncateMarkdown(text: string, maxChars: number): string {
   if (text.length <= maxChars) {

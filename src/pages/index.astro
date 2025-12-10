@@ -13,25 +13,27 @@ const posts = await Promise.all(
 ---
 
 <Root title="makeshift.computer">
-  <div class="mt-8 flex flex-col items-center space-y-16 px-4 pb-8">
+  <div
+    class="mt-8 flex flex-col items-center justify-items-center space-y-8 divide-y divide-zinc-200 px-4 pb-8 dark:divide-zinc-700"
+  >
     {
       posts.map((post) => (
-        <article class="prose w-full prose-zinc dark:prose-invert prose-img:mx-auto prose-img:my-auto">
+        <article class="prose w-full pb-8 prose-zinc dark:prose-invert prose-img:mx-auto prose-img:my-auto">
           {post.data.title && (
-            <h3>
-              <a href={`/posts/${post.id}/`} class="font-semibold no-underline">
+            <h2>
+              <a href={`/posts/${post.id}/`} class="font-semibold no-underline hover:underline">
                 {post.data.title}
               </a>
-            </h3>
+            </h2>
           )}
 
           {post.excerptContent ? (
             <>
               <post.excerptContent.Content />
               <p>
-                [...{" "}
-                <a href={`/posts/${post.id}/`} class="font-normal no-underline">
-                  more
+                [
+                <a href={`/posts/${post.id}/`} class="font-normal no-underline hover:underline">
+                  ... more
                 </a>
                 ]
               </p>
