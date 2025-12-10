@@ -41,7 +41,9 @@ const posts = await Promise.all(
           )}
 
           <div class="text-sm">
-            {post.publishedAt.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
+            {post.publishedAt.minute === 0 && post.publishedAt.second === 0
+              ? post.publishedAt.toLocaleString("en-US", { dateStyle: "medium" })
+              : post.publishedAt.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
           </div>
         </article>
       ))
