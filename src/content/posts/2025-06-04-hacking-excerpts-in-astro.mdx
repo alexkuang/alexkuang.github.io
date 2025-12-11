@@ -3,6 +3,13 @@ title: "hacking excerpts in astro"
 publishedAt: "2025-06-04T11:03:22-04:00[America/New_York]"
 ---
 
+**Update Dec 11 2025:** I've scrapped the excerpt pre-rendering approach entirely after switching to MDX.  The MDX
+rendering pipeline is even harder to hook into than markdown, with no (straightforward) programmatic API exposed. The
+blog now renders full post content on the feed with `line-clamp` for visual truncation.  This approach ensures
+consistent rendering behavior at the cost of shipping more HTML per page. Pagination helps keep page sizes reasonable.
+
+---
+
 I wanted to do excerpts to give the main blog page more of a "feed" than a "post list" feeling.  Surprisingly there
 wasn't a straightforward / built-in way to do it in astro.  The markdown => HTML conversion seems to happen as part of
 loading a post collection, and any downstream methods like `render()` just reuses that HTML.
