@@ -1,4 +1,5 @@
 ---
+import Link from "src/components/Link.astro";
 import Root from "src/layouts/Root.astro";
 import absolutelyRightData from "src/data/absolutely-right.json";
 
@@ -15,11 +16,9 @@ const daysSince = Math.floor(diffTime / (1000 * 60 * 60 * 24));
       <p class="mt-2">
         It has been <span class="font-bold text-zinc-700 dark:text-zinc-200">{daysSince}</span> day{
           daysSince === 1 ? "" : "s"
-        } since I have been <a
+        } since I have been <Link
           href="https://github.com/alexkuang/alexkuang.github.io/blob/76987215bf8cf5e7dc893152de162d5d4270b35c/scripts/update-absolutely-right.sh"
-          class="underline"
-          target="_blank"
-          rel="noopener noreferrer">absolutely right!</a
+          class="underline">absolutely right!</Link
         >
       </p>
       <nav class="mt-8 flex gap-4">

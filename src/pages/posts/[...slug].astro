@@ -1,4 +1,5 @@
 ---
+import Link from "src/components/Link.astro";
 import Root from "src/layouts/Root.astro";
 import { getPosts } from "src/util";
 import { render } from "astro:content";
@@ -21,7 +22,7 @@ const { Content } = await render(post);
     <article class="prose w-full prose-zinc dark:prose-invert prose-img:mx-auto prose-img:my-auto">
       {post.data.title && <h1>{post.data.title}</h1>}
 
-      <Content />
+      <Content components={{ a: Link }} />
 
       <div class="text-sm">
         {post.publishedAt.minute === 0 && post.publishedAt.second === 0

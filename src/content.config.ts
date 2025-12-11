@@ -39,7 +39,7 @@ function truncateMarkdown(text: string, maxChars: number): string {
 
 // Custom loader that wraps glob and adds excerpt rendering
 function postsLoader(): Loader {
-  const globLoader = glob({ pattern: "**/[^_]*.md", base: "./src/content/posts" });
+  const globLoader = glob({ pattern: "**/[^_]*.mdx", base: "./src/content/posts" });
 
   return {
     name: "posts-loader-with-excerpts",

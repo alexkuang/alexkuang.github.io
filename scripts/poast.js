@@ -1,6 +1,6 @@
 /**
- * npm run poast              # Creates post with random ID (e.g., 2025-12-11-a1b2c3d4.md)
- * npm run poast "My Title"   # Creates post with slugified title (e.g., 2025-12-11-my-title.md)
+ * npm run poast              # Creates post with random ID (e.g., 2025-12-11-a1b2c3d4.mdx)
+ * npm run poast "My Title"   # Creates post with slugified title (e.g., 2025-12-11-my-title.mdx)
  */
 import { writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
@@ -53,10 +53,10 @@ function main() {
   let filename;
   if (title) {
     const slug = slugify(title);
-    filename = `${datePrefix}-${slug}.md`;
+    filename = `${datePrefix}-${slug}.mdx`;
   } else {
     const alphanumericId = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 8);
-    filename = `${datePrefix}-${alphanumericId()}.md`;
+    filename = `${datePrefix}-${alphanumericId()}.mdx`;
   }
 
   const postsDir = join(projectRoot, 'src', 'content', 'posts');

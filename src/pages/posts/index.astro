@@ -1,4 +1,5 @@
 ---
+import Link from "src/components/Link.astro";
 import Root from "src/layouts/Root.astro";
 import { getPosts } from "src/util";
 import { render } from "astro:content";
@@ -29,7 +30,7 @@ const posts = await Promise.all(
 
           {post.excerptContent ? (
             <>
-              <post.excerptContent.Content />
+              <post.excerptContent.Content components={{ a: Link }} />
               <p>
                 [
                 <a href={`/posts/${post.id}/`} class="font-normal no-underline hover:underline">
@@ -39,7 +40,7 @@ const posts = await Promise.all(
               </p>
             </>
           ) : (
-            <post.content.Content />
+            <post.content.Content components={{ a: Link }} />
           )}
 
           <div class="text-sm">
