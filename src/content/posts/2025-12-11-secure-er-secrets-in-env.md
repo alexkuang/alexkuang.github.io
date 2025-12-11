@@ -1,0 +1,65 @@
+---
+title: "secure-er secrets in env"
+publishedAt: "2025-12-11T07:07:56-05:00[America/New_York]"
+excerptLimit: 700
+---
+
+Between [supply chain attacks](https://www.wiz.io/blog/shai-hulud-npm-supply-chain-attack), [code execution
+CVEs](https://www.wiz.io/blog/critical-vulnerability-in-react-cve-2025-55182), and [AI
+shenanigans](https://www.knostic.ai/blog/ai-coding-assistants-leaking-secrets), plaintext `.env` files are starting to
+feel like a giant kick-me sign. So nowadays I keep my local dev secrets behind [1Password](https://1password.com/)
+and [direnv](https://direnv.net/):
+- I've been a happy paying user of 1Pass for years, and they have a nifty CLI.
+- direnv works across ecosystems and generally does the right thing.  Also it's not written in javascript #sorrynotsorry
+
+### How it works
+
+First, [install 1Password CLI](https://developer.1password.com/docs/cli/get-started/), and [install
+direnv](https://direnv.net/docs/installation.html).
+
+Let's say you've got some code in `~/projects/awesome_ai_bot` that needs an `OPENAI_API_KEY` environment variable.
+You save your openai key into your 1Pass `local_apps` vault with the name `openai_api_key`, which you can access with:
+
+```bash
+op item get openai_api_key --vault local_apps --fields credential --reveal
+```
+
+Then, in `~/projects/awesome_ai_bot/.envrc`:
+
+```bash
+export OPENAI_API_KEY=`op item get openai_api_key --fields credential --reveal`
+```
+
+When you `cd ~/projects/awesome_ai_bot`, direnv runs the file, 1Pass prompts once to decrypt, and Bob's your uncle:
+- Access follows 1Password semantics.  You confirm once and everything is unlocked for your session.  If it's been more
+  than 10 minutes, or your 1Pass gets locked, etc, it will re-prompt.
+- The 1Pass prompt makes it less likely to get your secrets stolen in the background by, say, an npm post-install
+  script.
+- Access is per shell and direnv loads/unloads based on `cwd` so secrets are not hanging around.
+- `.envrc` is safe to commit, assuming you have that privilege.  If not, just put it upstream.  This is super handy for
+  client work, where I will have `~/projects/client_1/.envrc` which then gets applied to `~/projects/client_1/backend`,
+  `~/projects/client_1/frontend`, etc.  I get the safety of this setup without necessarily imposing 1Pass + direnv into
+  their processes.
+
+### even more secure-er secrets
+
+If you have full control over the project, it's even better to skip `direnv` and [wire 1Pass into your run scripts
+directly](/posts/2024-12-03-local-secrets-automation-1pass/).  Then the secrets are only exposed to the relevant
+processes, vs your entire shell session.
+
+```bash
+# in `secrets.env`
+OPENAI_API_KEY="op://local_apps/openai_api_key/credential"
+```
+
+```bash
+op run --env-file="secrets.env" -- npm run dev
+```
+
+### service accounts
+
+1Pass also offers [service accounts](https://developer.1password.com/docs/service-accounts/get-started/) which allow for
+tighter scoping + fully automated access with no prompt to decrypt.  In theory they are more secure, e.g. a rogue
+script can't escalate access to other secrets after you authenticate.  In practice I've found it not worth the overhead,
+especially since you have the bootstrap problem -- `OP_SERVICE_ACCOUNT_TOKEN` is itself a sensitive secret.  Defense
+happens in depth and IMO using 1Pass at all is already a big step up.

@@ -14,15 +14,8 @@ Last week I finally got tired of the nonsense and automated it via 1Pass. Appare
 [command line package](https://developer.1password.com/docs/cli) that makes this pretty easy. (And if you're not running
 1Pass or some password manager by now... What are you doing??)
 
-First bit is jamming all the local app secrets into their own vault + setting up a
-[service account](https://developer.1password.com/docs/service-accounts/get-started/) for it. This makes it so the CLI
-start scripts just have access to those secrets, vs my entire 1Pass account:
-
-```bash
-op service-account create local-apps --vault local_apps:read_items
-```
-
-To actually use the secrets, set up a new env file with 1pass urls:
+First, set up a new env file with 1pass urls.  `local_apps` is a separate vault I keep local dev secrets in, just for
+organization's sake.
 
 ```bash
 DATABASE_URL="op://local_apps/server_phoenix_settings_prod/database_url"
