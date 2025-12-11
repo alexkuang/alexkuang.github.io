@@ -1,12 +1,23 @@
 ---
 import Root from "src/layouts/Root.astro";
+import absolutelyRightData from "src/data/absolutely-right.json";
+
+const lastCommit = new Date(absolutelyRightData.lastCommitDate);
+const today = new Date();
+const diffTime = today.getTime() - lastCommit.getTime();
+const daysSince = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 ---
 
 <Root title="makeshift.computer">
   <div class="mt-8 flex flex-col items-center px-4">
-    <div class="w-full max-w-prose">
-      <h1 class="text-xl text-zinc-900 dark:text-zinc-100">hello, world</h1>
-      <nav class="mt-4 flex gap-4">
+    <div class="w-full max-w-prose text-zinc-900 dark:text-zinc-100">
+      <p class="mr-2 text-2xl font-medium tracking-tight">hello, world.</p>
+      <p class="mt-2">
+        It has been <span class="font-bold text-zinc-700 dark:text-zinc-200">{daysSince}</span> day{
+          daysSince === 1 ? "" : "s"
+        } since I have been absolutely right!
+      </p>
+      <nav class="mt-8 flex gap-4">
         <a
           href="/posts/"
           class="font-bold text-zinc-900 uppercase hover:text-zinc-700 dark:text-zinc-300 dark:hover:text-zinc-100"

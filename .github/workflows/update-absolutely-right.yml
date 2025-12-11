@@ -1,0 +1,31 @@
+name: Update Absolutely Right Counter
+
+on:
+  schedule:
+    # Run daily at midnight UTC
+    - cron: '0 0 * * *'
+  # Allow manual trigger for testing
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-absolutely-right:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch latest public commit
+        env:
+          GH_TOKEN: ${{ secrets.GH_PUBLIC_TOKEN }}
+        run: ./scripts/update-absolutely-right.sh
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/absolutely-right.json
+          git diff --staged --quiet || git commit -m "chore: update absolutely right counter"
+          git push
