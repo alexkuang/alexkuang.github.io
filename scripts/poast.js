@@ -1,3 +1,7 @@
+/**
+ * npm run poast              # Creates post with random ID (e.g., 2025-12-11-a1b2c3d4.md)
+ * npm run poast "My Title"   # Creates post with slugified title (e.g., 2025-12-11-my-title.md)
+ */
 import { writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import { customAlphabet } from 'nanoid';
@@ -16,24 +20,22 @@ function slugify(text) {
 
 function getTodayString() {
   const today = new Date();
-  return today.toISOString().split('T')[0]; // YYYY-MM-DD format
+  // should get us the YYYY-MM-DD format
+  return today.toISOString().split('T')[0];
 }
 
 function getTodayISO() {
   const now = new Date();
   const isoDate = now.toISOString().split('T')[0];
 
-  // Get local timezone offset in minutes, then convert to hours
+  // Format offset as +/-HH:MM
   const offsetMinutes = now.getTimezoneOffset();
   const offsetHours = Math.floor(Math.abs(offsetMinutes) / 60);
   const offsetMins = Math.abs(offsetMinutes) % 60;
-
-  // Format offset as ±HH:MM
   const sign = offsetMinutes <= 0 ? '+' : '-';
   const offsetString = `${sign}${offsetHours.toString().padStart(2, '0')}:${offsetMins.toString().padStart(2, '0')}`;
   const idString = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  // Format current local time
   const hours = now.getHours().toString().padStart(2, '0');
   const minutes = now.getMinutes().toString().padStart(2, '0');
   const seconds = now.getSeconds().toString().padStart(2, '0');
@@ -65,15 +67,10 @@ ${title ? `title: "${title}"\n` : ''}publishedAt: "${publishedAt}"
 ---
 `;
 
-  // Ensure the directory exists
   mkdirSync(postsDir, { recursive: true });
-
-  // Write the file
   writeFileSync(filepath, content, 'utf8');
-
   console.log(`Created new post: ${filepath}`);
 
-  // Open the file
   execSync(`vim ${filepath}`, { stdio: 'inherit' });
 }
 
