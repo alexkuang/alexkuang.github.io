@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
+# Updates the "absolutely right" counter with most recent contribution data
 set -euo pipefail
 
-# Update the "absolutely right" counter by fetching the most recent public commit date
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
@@ -13,23 +13,42 @@ if [ -z "${GH_TOKEN:-}" ]; then
   exit 1
 fi
 
-# Fetch recent public events for the user
-RESPONSE=$(curl -s -H "Authorization: token $GH_TOKEN" \
-  "https://api.github.com/users/alexkuang/events/public?per_page=100")
+QUERY='query($userName: String!) {
+  user(login: $userName) {
+    contributionsCollection {
+      contributionCalendar {
+        weeks {
+          contributionDays {
+            contributionCount
+            date
+          }
+        }
+      }
+    }
+  }
+}'
 
-# Find the most recent PushEvent and extract its timestamp
+RESPONSE=$(curl -s -H "Authorization: bearer $GH_TOKEN" \
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d "$(jq -n --arg query "$QUERY" '{"query": $query, "variables": {"userName": "alexkuang"}}')" \
+  "https://api.github.com/graphql")
+
 LAST_COMMIT_DATE=$(echo "$RESPONSE" | jq -r '
-  [.[] | select(.type == "PushEvent")] |
-  first |
-  .created_at // empty
+  .data.user.contributionsCollection.contributionCalendar.weeks
+  | map(.contributionDays)
+  | flatten
+  | map(select(.contributionCount > 0))
+  | last
+  | .date
 ')
 
 if [ -z "$LAST_COMMIT_DATE" ] || [ "$LAST_COMMIT_DATE" = "null" ]; then
-  echo "No push events found, keeping existing data"
+  echo "No contributions found"
   exit 0
 fi
 
-echo "Last public commit: $LAST_COMMIT_DATE"
+echo "Last contribution: $LAST_COMMIT_DATE"
 
 # Write to data file
 cat > "$DATA_FILE" << EOF
