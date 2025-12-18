@@ -2,8 +2,8 @@ name: Update Absolutely Right Counter
 
 on:
   schedule:
-    # Run daily at midnight UTC
-    - cron: '0 0 * * *'
+    # Run near end of the day
+    - cron: '0 22 * * *'
   # Allow manual trigger for testing
   workflow_dispatch:
 
