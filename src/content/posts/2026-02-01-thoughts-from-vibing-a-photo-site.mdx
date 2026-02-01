@@ -1,0 +1,45 @@
+---
+title: "thoughts from vibing a photo site"
+publishedAt: "2026-02-01T09:04:22-05:00[America/New_York]"
+---
+
+So I vibe-coded a [photo site](https://photos.makeshift.computer/), in the truest sense of the term: aside from a few
+naming edits and obviously the album + copy itself, I wrote exactly 0% of the code by hand.  Some of the code, I barely
+even read.  In all, the LLM wrote:
+
+- The website itself, which is a static website driven by [astro](https://astro.build/).  The output is entirely
+  vanilla: plain HTML, css, js.
+- [CDK](https://aws.amazon.com/cdk/) code for the hosting infrastructure, S3 + Cloudfront.
+- Utility scripts, mostly python, for workflow: collating image names, working exif data, bulk upload, etc.
+
+### How did it go?
+
+This is the exact type of "nice to have" project that would have been too much of a pain to do without LLMs.  Most of
+the vibing happened in the in-between times: waiting for claude to crunch on harder problems, in between cooking dinner,
+etc.  As a testament to the progress of LLMs, I vaguely recall attempting something like this back in 2024 and the
+results were not nearly good enough to publish.  (Right, yes, I could have gotten it there, but again, too much of a
+pain.)  This time, prompting more or less Just Worked on both the astro site as well as the more finicky CDK code.
+
+Does this mean the AI is coming for our jobs?  At time of writing in early 2026, I'd still lean no.  Despite prompting
+"just working," it was heavily helped by my ~two decades of experience writing software.  I had to steer it a lot: from
+little things like "include a `requirements.txt` for python and update `.tool-versions`" to big things like "dropping to
+L1 CDK constructs seems really dumb here, are you *sure* this is the issue."
+
+... Then there's the obvious fact that this is a photo site.  I would absolutely not take this approach to production
+code, and barring some extinction-level jumps in model intelligence, I'm not sure I'll ever get there.  So can we count
+this photo site as "productivity gainz"?  Technically, sure, I guess?  But when pundits reference the 10x+ productivity
+jump, they usually mean serious software with economic value.
+
+### The Great Deployment Filter
+
+The biggest friction point, and where technical experience really comes into play, is in the deployment.  Vibing a
+S3+Cloudfront setup only works because I'm masochistic enough to already have a personal AWS account managed via CDK,
+and know CDK well enough to see that Claude is not doing something completely deranged.  I recognize that running your
+own AWS is...  slightly unusual, even for developer-y types.  In contrast, a non-technical person would have had to
+figure out, from scratch, hosting for photo assets and deployment for the site itself.  We quickly go from "speak
+english to claude" to "here's a [list of clouds](https://docs.astro.build/en/guides/deploy/),
+[glhfdd](https://www.urbandictionary.com/define.php?term=glhfdd)" And this is just for a static html website -- no
+external APIs, OAuth integrations, etc making life even harder.
+
+Insofar as we want LLMs to lower the barrier to entry for shipping software, deployment and runtime is still one of the
+biggest constraints right now.
