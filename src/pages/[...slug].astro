@@ -1,14 +1,14 @@
 ---
 import Link from "src/components/Link.astro";
 import Root from "src/layouts/Root.astro";
-import { getPosts } from "src/util";
+import { getPosts, getTitleSlug } from "src/util";
 import { render } from "astro:content";
 
 export async function getStaticPaths() {
   const posts = await getPosts();
 
   return posts.map((post) => ({
-    params: { slug: post.id },
+    params: { slug: getTitleSlug(post.id) },
     props: post,
   }));
 }

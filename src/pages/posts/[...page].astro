@@ -1,7 +1,7 @@
 ---
 import Link from "src/components/Link.astro";
 import Root from "src/layouts/Root.astro";
-import { getPosts } from "src/util";
+import { getPosts, getPostUrl } from "src/util";
 import { render } from "astro:content";
 import type { GetStaticPaths } from "astro";
 
@@ -29,7 +29,7 @@ const posts = await Promise.all(
         <article class="prose w-full pb-8 tracking-tight prose-zinc dark:prose-invert prose-img:mx-auto prose-img:my-auto">
           {post.data.title && (
             <h2>
-              <a href={`/posts/${post.id}/`} class="font-semibold no-underline hover:underline">
+              <a href={getPostUrl(post)} class="font-semibold no-underline hover:underline">
                 {post.data.title}
               </a>
             </h2>
@@ -43,7 +43,7 @@ const posts = await Promise.all(
               </div>
               <p>
                 [
-                <a href={`/posts/${post.id}/`} class="font-normal no-underline hover:underline">
+                <a href={getPostUrl(post)} class="font-normal no-underline hover:underline">
                   ... more
                 </a>
                 ]
