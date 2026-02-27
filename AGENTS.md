@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an Astro-based personal blog/website hosted at bikeshed.coffee. It uses:
+This is an Astro-based personal blog/website hosted at makeshift.computer. It uses:
 - Astro 5.x with content collections for blog posts
 - Tailwind CSS 4.x for styling
 - TypeScript for type safety
