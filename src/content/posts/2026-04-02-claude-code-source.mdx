@@ -1,0 +1,17 @@
+---
+title: "claude code source"
+publishedAt: "2026-04-02T09:40:03-04:00[America/New_York]"
+---
+
+Assuming it's real, the claude code source is a pretty interesting read for all manner of roadmap and product reasons:
+
+... But forget all that, here's my favorite part of the code:
+
+```typescript
+const negativePattern =
+    /\b(wtf|wth|ffs|omfg|shit(ty|tiest)?|dumbass|horrible|awful|piss(ed|ing)? off|piece of (shit|crap|junk)|what the (fuck|hell)|fucking? (broken|useless|terrible|awful|horrible)|fuck you|screw (this|you)|so frustrating|this sucks|damn it)\b/
+```
+
+I guess they are listening to all the profanity we (ok, I) sling at the LLM.  Ha!
+
+([link to file](https://github.com/chatgptprojects/clear-code/blob/642c7f944bbe5f7e57c05d756ab7fa7c9c5035cc/src/utils/userPromptKeywords.ts) - may get taken down, but at this point the streisand effect is in full swing, so I'm sure some mirror will not be hard to find.)
