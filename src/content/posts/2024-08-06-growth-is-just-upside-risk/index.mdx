@@ -4,6 +4,8 @@ publishedAt: "2024-08-06T00:00:00-04:00[America/New_York]"
 excerptLimit: 500
 ---
 
+import OutcomeChart from "src/components/OutcomeChart.astro";
+
 Lately we've been thinking about fundraising at work.  We've built a good product and a business with gathering momentum
 and positive unit economics.  Even without a raise we're likely to be in the black in a reasonable amount of time –
 knock on wood – or as Silicon Valley likes to say, [default alive](https://paulgraham.com/aord.html).
@@ -15,7 +17,7 @@ another way to phrase "growth opportunity" is "upside risk," and once you say "u
 So here's something I've been musing over.  The outcome distribution of a good business with some level of history
 probably looks roughly like this:
 
-![plot 1](./assets/1.png)
+<OutcomeChart scenario="baseline" />
 
 (Defining "box plot" is outside the scope of this post, please see the wiki page :))
 
@@ -26,14 +28,14 @@ long term, it's likely to end up ahead of where it was.
 
 It's tempting to think of executing a "growth opportunity" as something like this:
 
-![plot 2](./assets/2.png)
+<OutcomeChart scenario="free-lunch" />
 
 The median outcome gets nudged upwards but the level of variance stays the same.  Except that's a free lunch, and
 there's no such thing as a free lunch.  Any initiative strong enough to introduce upside risk will naturally introduce
 downside risk.  Spinning up a new team incurs additional costs, bringing on investors increases potential for strategic
 misalignment, etc etc.  Realistically, a good growth case probably looks more like this:
 
-![plot 3](./assets/3.png)
+<OutcomeChart scenario="growth" />
 
 There's larger downside risk in the short term because of disruption from the changes, but the downside is asymmetric.
 The more asymmetric your bet, the more upside you get in exchange.  Over time the business adapts and captures
@@ -41,12 +43,12 @@ additional opportunity, it ends better than the base case, and Bob's your uncle.
 
 But it's also easy to accidentally do this with your changes:
 
-![plot 4](./assets/4.png)
+<OutcomeChart scenario="yolo" />
 
 ... AKA the "yolo bet."  The median stays the same, but you've blown out both ends of your risk distribution.  This is a
 bet that's ~usually not a great one, because there's one line missing in the charts thus far:
 
-![plot 5](./assets/5.png)
+<OutcomeChart scenario="survival" />
 
 Most of the time, the ability to absorb downside is limited: at some point, it will just kill the company.
 Nevertheless, there are valid reasons to make the yolo bet. The obvious one is if the business is actually down-trending

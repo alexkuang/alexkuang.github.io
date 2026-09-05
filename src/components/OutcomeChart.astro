@@ -1,0 +1,262 @@
+---
+interface Props {
+  scenario: "baseline" | "free-lunch" | "growth" | "yolo" | "survival";
+}
+
+const { scenario } = Astro.props;
+const titles = {
+  baseline: "a business with room to grow",
+  "free-lunch": "the tempting growth story",
+  growth: "a more realistic growth bet",
+  yolo: "the yolo bet",
+  survival: "the downside has a limit",
+};
+const descriptions = {
+  baseline:
+    "Five box plots rise over time. The median improves, and the downside gradually moves above the current position.",
+  "free-lunch":
+    "The growth scenario lifts every outcome above the baseline while preserving the same spread. This is the unrealistic free lunch described in the article.",
+  growth:
+    "The growth scenario has a higher median and a wider spread than the baseline, with more downside early on and greater upside later.",
+  yolo: "The median matches the baseline, but the spread widens in both directions. More upside comes with substantially more downside.",
+  survival:
+    "The same wider distributions now face a dashed survival threshold. Any range extending below the threshold includes outcomes the business cannot survive.",
+};
+
+// Coordinates describe the original sketches, not measured data or calibrated probabilities.
+const baseline = [
+  { low: -23, q1: 2, median: 14, q3: 27, high: 50 },
+  { low: -13, q1: 11, median: 28, q3: 42, high: 74 },
+  { low: 0, q1: 22, median: 42, q3: 62, high: 105 },
+  { low: 14, q1: 34, median: 56, q3: 80, high: 133 },
+  { low: 28, q1: 48, median: 70, q3: 95, high: 165 },
+];
+const growth = [
+  { low: -30, q1: 0, median: 20, q3: 32, high: 65 },
+  { low: -22, q1: 9, median: 40, q3: 58, high: 92 },
+  { low: 0, q1: 28, median: 60, q3: 82, high: 123 },
+  { low: 18, q1: 42, median: 80, q3: 109, high: 157 },
+  { low: 42, q1: 62, median: 100, q3: 137, high: 198 },
+];
+const yolo = [
+  { low: -55, q1: -13, median: 14, q3: 41, high: 83 },
+  { low: -65, q1: -1, median: 28, q3: 61, high: 110 },
+  { low: -53, q1: 9, median: 42, q3: 88, high: 150 },
+  { low: -31, q1: 22, median: 56, q3: 109, high: 174 },
+  { low: -6, q1: 38, median: 70, q3: 129, high: 194 },
+];
+const boxes =
+  scenario === "free-lunch"
+    ? baseline.map((box, i) => {
+        const lift = (i + 1) * 9;
+        return {
+          low: box.low + lift,
+          q1: box.q1 + lift,
+          median: box.median + lift,
+          q3: box.q3 + lift,
+          high: box.high + lift,
+        };
+      })
+    : scenario === "growth"
+      ? growth
+      : scenario === "yolo" || scenario === "survival"
+        ? yolo
+        : baseline;
+const showBaseline = scenario !== "baseline";
+const positiveGrowth = scenario === "growth" || scenario === "free-lunch";
+const x = (index: number) => 160 + index * 104;
+const y = (value: number) => 250 - value;
+const id = `outcome-${scenario}`;
+---
+
+<figure class:list={["outcome-chart not-prose", { "positive-growth": positiveGrowth }]}>
+  <svg viewBox="0 0 720 420" role="img" aria-labelledby={`${id}-title ${id}-desc`}>
+    <title id={`${id}-title`}>{titles[scenario]}</title>
+    <desc id={`${id}-desc`}
+      >{descriptions[scenario]}
+      {showBaseline && "The faint box plots show the baseline; the stronger box plots show the bet."}</desc
+    >
+    <g class="axes">
+      <path d="M70 52V355M64 60l6-8 6 8M64 347l6 8 6-8M70 250H676m-8-6 8 6-8 6"></path>
+    </g>
+    <g class="axis-labels">
+      <text x="36" y="15"><tspan x="36">upside vs.</tspan><tspan x="36" dy="1.15em">current</tspan></text>
+      <text x="36" y="381"><tspan x="36">downside vs.</tspan><tspan x="36" dy="1.15em">current</tspan></text>
+      <text x="674" y="278" text-anchor="end">time →</text>
+    </g>
+    {
+      showBaseline && (
+        <g class="comparison">
+          {baseline.map((box, i) => (
+            <g>
+              <path
+                d={`M${x(i)} ${y(box.high)}V${y(box.q3)}M${x(i)} ${y(box.q1)}V${y(box.low)}M${x(i) - 6} ${y(box.high)}h12M${x(i) - 6} ${y(box.low)}h12`}
+              />
+              <rect x={x(i) - 13} y={y(box.q3)} width="26" height={box.q3 - box.q1} rx="2" />
+              <path d={`M${x(i) - 13} ${y(box.median)}h26`} />
+            </g>
+          ))}
+          <path
+            class="baseline-median"
+            d={`M70 250 ${baseline.map((box, i) => `L${x(i)} ${y(box.median)}`).join(" ")} L631 ${y(70 + (14 * 55) / 104)}`}
+          />
+        </g>
+      )
+    }
+    <g class="distribution">
+      <path
+        class="median-trend"
+        d={`M70 250 ${boxes.map((box, i) => `L${x(i)} ${y(box.median)}`).join(" ")} L631 ${y(boxes[4].median + ((boxes[4].median - boxes[3].median) * 55) / 104)}`}
+      ></path>
+      {
+        boxes.map((box, i) => (
+          <g>
+            <path
+              class="whisker"
+              d={`M${x(i)} ${y(box.high)}V${y(box.q3)}M${x(i)} ${y(box.q1)}V${y(box.low)}M${x(i) - 6} ${y(box.high)}h12M${x(i) - 6} ${y(box.low)}h12`}
+            />
+            <rect x={x(i) - 13} y={y(box.q3)} width="26" height={box.q3 - box.q1} rx="2" />
+            <path class="median" d={`M${x(i) - 13} ${y(box.median)}h26`} />
+          </g>
+        ))
+      }
+    </g>
+    {
+      scenario === "survival" && (
+        <g class="survival-line">
+          <path d="M70 298H676" />
+          <text x="674" y="324" text-anchor="end">
+            business survival
+          </text>
+        </g>
+      )
+    }
+  </svg>
+  <div class="chart-key" aria-hidden="true">
+    <span class="scenario-key"
+      >{scenario === "baseline" ? "business as usual" : positiveGrowth ? "growth bet" : "yolo bet"}</span
+    >
+    {showBaseline && <span class="baseline-key">baseline</span>}
+  </div>
+</figure>
+
+<style>
+  .outcome-chart {
+    --chart-accent: #38475b;
+    --chart-fill: color-mix(in srgb, var(--chart-accent) 10%, transparent);
+    --chart-reference: #a4adb9;
+    --chart-danger: #b84e51;
+    margin: 2.5rem 0;
+    color: var(--ink);
+  }
+  .outcome-chart.positive-growth {
+    --chart-accent: #23776c;
+  }
+  :global(.dark) .outcome-chart {
+    --chart-accent: #d1dce9;
+    --chart-reference: #65707e;
+    --chart-danger: #eb8a8d;
+  }
+  :global(.dark) .outcome-chart.positive-growth {
+    --chart-accent: #79c9b5;
+  }
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  svg path,
+  svg rect {
+    vector-effect: non-scaling-stroke;
+  }
+  .axes {
+    fill: none;
+    stroke: var(--muted);
+    stroke-width: 1.5;
+  }
+  .axis-labels {
+    fill: var(--muted);
+    font-size: 14px;
+  }
+  .comparison {
+    fill: none;
+    stroke: var(--chart-reference);
+    stroke-width: 1;
+    opacity: 0.45;
+  }
+  .baseline-median {
+    fill: none;
+    stroke: var(--chart-reference);
+    stroke-width: 1;
+    stroke-dasharray: 3 5;
+  }
+  .distribution {
+    fill: none;
+    stroke: var(--chart-accent);
+    stroke-width: 1.5;
+  }
+  .distribution rect {
+    fill: var(--chart-fill);
+  }
+  .median-trend {
+    stroke-width: 1.5;
+  }
+  .whisker {
+    stroke-width: 1.25;
+  }
+  .median {
+    stroke-width: 2;
+  }
+  .survival-line {
+    fill: var(--chart-danger);
+    stroke: var(--chart-danger);
+  }
+  .survival-line path {
+    stroke-width: 1.25;
+    stroke-dasharray: 5 5;
+  }
+  .survival-line text {
+    stroke: none;
+    font-size: 14px;
+  }
+  .chart-key {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem 1.5rem;
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .scenario-key {
+    color: var(--chart-accent);
+  }
+  .baseline-key {
+    color: var(--muted);
+  }
+  .scenario-key::before,
+  .baseline-key::before {
+    content: "";
+    display: inline-block;
+    width: 1.5rem;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+  .scenario-key::before {
+    border-top: 2px solid var(--chart-accent);
+  }
+  .baseline-key::before {
+    border-top: 1px solid var(--chart-reference);
+    opacity: 0.45;
+  }
+  @media (max-width: 480px) {
+    .axis-labels,
+    .survival-line text {
+      font-size: 23px;
+    }
+    .chart-key {
+      gap: 0.5rem 1rem;
+    }
+  }
+</style>
