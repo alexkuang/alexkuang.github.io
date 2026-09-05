@@ -1,6 +1,6 @@
 /**
- * npm run poast              # Creates post with random ID (e.g., 2025-12-11-a1b2c3d4.mdx)
- * npm run poast "My Title"   # Creates post with slugified title (e.g., 2025-12-11-my-title.mdx)
+ * pnpm run poast              # Creates post with random ID (e.g., 2025-12-11-a1b2c3d4.mdx)
+ * pnpm run poast "My Title"   # Creates post with slugified title (e.g., 2025-12-11-my-title.mdx)
  */
 import { writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';

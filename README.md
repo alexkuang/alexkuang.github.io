@@ -12,32 +12,32 @@ Live site: https://makeshift.computer/
 
 ## Local development
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 ## Build and checks
 ```bash
-npm run astro check
-npm run build
+pnpm run astro check
+pnpm run build
 ```
 
 ## Content
 - Posts live in `src/content/posts/`.
 - Create a new post:
 ```bash
-npm run poast
+pnpm run poast
 # or
-npm run poast "Post Title"
+pnpm run poast "Post Title"
 ```
 
 ## Useful scripts
-- `npm run dev` - start local dev server
-- `npm run build` - build production output to `dist/`
-- `npm run preview` - preview the production build
-- `npm run astro check` - Astro + TypeScript checks
-- `npm run eslint` - lint project files
-- `npm run prettier` - format project files
+- `pnpm run dev` - start local dev server
+- `pnpm run build` - build production output to `dist/`
+- `pnpm run preview` - preview the production build
+- `pnpm run astro check` - Astro + TypeScript checks
+- `pnpm run eslint` - lint project files
+- `pnpm run prettier` - format project files
 
 ## Docs
 - Newsletter automation plan: [docs/newsletter-buttondown-plan.md](docs/newsletter-buttondown-plan.md)

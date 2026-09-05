@@ -1,11 +1,11 @@
 start:
-    npm run dev
+    pnpm run dev
 
 build:
-    npm run build
+    pnpm run build
 
 preview: build
-    npm run preview
+    pnpm run preview
 
 poast *title:
-    npm run poast -- {{title}}
+    pnpm run poast -- {{title}}
