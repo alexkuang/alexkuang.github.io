@@ -2,7 +2,7 @@
   "name": "nasty-nova",
   "type": "module",
   "version": "0.0.1",
-  "packageManager": "pnpm@11.5.1",
+  "packageManager": "pnpm@12.3.4",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -13,27 +13,28 @@
     "poast": "node scripts/poast.js"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.6",
-    "@astrojs/mdx": "^4.3.13",
-    "@astrojs/rss": "^4.0.15",
-    "@tailwindcss/vite": "^4.1.11",
-    "@types/markdown-it": "^14.1.2",
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/mdx": "^8.0.0",
+    "@astrojs/rss": "^4.0.19",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/markdown-it": "^14.2.0",
     "@types/mdast": "^4.0.4",
-    "astro": "^5.16.4",
-    "mdast-util-from-markdown": "^2.0.2",
+    "astro": "^7.3.1",
+    "mdast-util-from-markdown": "^2.0.3",
     "mdast-util-to-markdown": "^2.1.2",
-    "tailwindcss": "^4.1.11",
-    "temporal-polyfill": "^0.3.0",
-    "typescript": "^5.9.2"
+    "tailwindcss": "^4.3.3",
+    "temporal-polyfill": "^1.0.4",
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.16",
-    "eslint": "^9.33.0",
-    "eslint-plugin-astro": "^1.3.1",
-    "nanoid": "^5.1.5",
-    "prettier": "^3.6.2",
+    "@tailwindcss/typography": "^0.5.20",
+    "@typescript-eslint/parser": "^8.69.0",
+    "eslint": "^10.10.0",
+    "eslint-plugin-astro": "^3.1.0",
+    "nanoid": "^6.0.1",
+    "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-organize-imports": "^4.2.0",
-    "prettier-plugin-tailwindcss": "^0.6.14"
+    "prettier-plugin-organize-imports": "^4.3.0",
+    "prettier-plugin-tailwindcss": "^0.8.1"
   }
 }

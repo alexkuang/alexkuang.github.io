@@ -5,7 +5,7 @@ Personal blog built with Astro and deployed to GitHub Pages.
 Live site: https://makeshift.computer/
 
 ## Stack
-- Astro 5
+- Astro 7
 - TypeScript
 - Tailwind CSS 4
 - Markdown content collections

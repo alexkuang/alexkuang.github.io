@@ -1,6 +1,7 @@
 import type { Loader } from "astro/loaders";
 import { glob } from "astro/loaders";
-import { defineCollection, z } from "astro:content";
+import { z } from "astro/zod";
+import { defineCollection } from "astro:content";
 
 const DEFAULT_EXCERPT_LIMIT = 400;
 
