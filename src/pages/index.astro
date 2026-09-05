@@ -1,5 +1,6 @@
 ---
 import Root from "src/layouts/Root.astro";
+import Link from "src/components/Link.astro";
 import { getPosts, getPostUrl } from "src/util";
 
 const posts = await getPosts();
@@ -21,8 +22,8 @@ const selectedPosts = selections.map(({ slug, note }) => {
       <h1 id="intro-title">hello, I'm Alex.</h1>
       <p class="intro-copy">entrepreneur and software person. currently exploring new startup and product ideas.</p>
       <p class="intro-detail">
-        previously, technical cofounder at <a href="https://www.withparallax.com/">parallax</a>. this is where I write
-        about building software, running businesses, and whatever else catches my attention.
+        previously, technical cofounder at <Link href="https://www.linkedin.com/company/parallaxfinance/">parallax</Link
+        >. this is where I write about building software, running businesses, and whatever else catches my attention.
       </p>
     </section>
     <section class="writing-section" aria-labelledby="selected-title">
@@ -93,7 +94,7 @@ const selectedPosts = selections.map(({ slug, note }) => {
     color: var(--muted);
     line-height: 1.8;
   }
-  .intro-detail a {
+  .intro-detail :global(a) {
     color: var(--ink);
     text-decoration: underline;
     text-underline-offset: 0.2em;
