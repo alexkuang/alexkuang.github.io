@@ -26,7 +26,7 @@ const posts = await Promise.all(
   >
     {
       posts.map((post) => (
-        <article class="prose w-full max-w-none pb-8 tracking-tight prose-zinc dark:prose-invert prose-img:mx-auto prose-img:my-auto">
+        <article class="feed-entry prose w-full max-w-none pb-8 tracking-tight prose-zinc dark:prose-invert prose-img:mx-auto prose-img:my-auto">
           {post.data.title && (
             <h2>
               <a href={getPostUrl(post)} class="font-semibold no-underline hover:underline">
@@ -35,34 +35,26 @@ const posts = await Promise.all(
             </h2>
           )}
 
-          {post.data.hasExcerpt ? (
-            // default margin on both paragraph + h2 is a bit too spacious for the feed
-            <div class="mt-[-1.5em]">
-              <div class="line-clamp-6">
-                <post.content.Content components={{ a: Link }} />
-              </div>
-              <p>
-                [
-                <a href={getPostUrl(post)} class="font-normal no-underline hover:underline">
-                  ... more
-                </a>
-                ]
-              </p>
-            </div>
-          ) : (
+          <div class:list={["post-body", { "post-excerpt": post.data.hasExcerpt }]}>
             <post.content.Content components={{ a: Link }} />
-          )}
-
-          <div class="text-sm">
-            {post.publishedAt.minute === 0 && post.publishedAt.second === 0
-              ? post.publishedAt.toLocaleString("en-US", { dateStyle: "medium" })
-              : post.publishedAt.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
           </div>
+          <footer class="post-footer not-prose">
+            <a href={getPostUrl(post)}>
+              <time datetime={post.publishedAt.toPlainDate().toString()}>
+                {post.publishedAt.toLocaleString("en-US", { dateStyle: "medium" })}
+              </time>
+            </a>
+            {post.data.hasExcerpt && (
+              <a href={getPostUrl(post)} aria-label={post.data.title ? `Read more: ${post.data.title}` : "Read more"}>
+                read more <span aria-hidden="true">→</span>
+              </a>
+            )}
+          </footer>
         </article>
       ))
     }
 
-    <nav class="prose grid w-full max-w-none grid-cols-3 items-center pt-4 prose-zinc dark:prose-invert">
+    <nav aria-label="Post pages" class="pagination grid w-full max-w-none grid-cols-3 items-center">
       <div class="justify-self-start">
         {
           page.url.prev && (
@@ -83,13 +75,13 @@ const posts = await Promise.all(
                   clip-rule="evenodd"
                 />
               </svg>
-              Newer
+              newer
             </a>
           )
         }
       </div>
-      <span class="justify-self-center text-zinc-500">
-        Page {page.currentPage} of {page.lastPage}
+      <span class="page-count justify-self-center">
+        page {page.currentPage} of {page.lastPage}
       </span>
       <div class="justify-self-end">
         {
@@ -98,7 +90,7 @@ const posts = await Promise.all(
               href={page.url.next}
               class="flex items-center gap-1 text-zinc-600 no-underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
             >
-              Older
+              older
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -119,3 +111,73 @@ const posts = await Promise.all(
     </nav>
   </div>
 </Root>
+
+<style>
+  .feed-entry > h2 {
+    margin: 0 0 1rem;
+  }
+  .post-body :global(> :first-child) {
+    margin-top: 0;
+  }
+  .post-body :global(> :last-child) {
+    margin-bottom: 0;
+  }
+  .post-body :global(p) {
+    margin-block: 0.75rem;
+  }
+  .post-excerpt {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    max-height: 12.25rem;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, black calc(100% - 1.75rem), transparent);
+  }
+  .post-excerpt :global(h1),
+  .post-excerpt :global(h2),
+  .post-excerpt :global(h3),
+  .post-excerpt :global(h4) {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.75;
+    margin-block: 0.75rem 0.5rem;
+  }
+  .post-excerpt :global(hr) {
+    width: 3rem;
+    margin: 1rem 0;
+  }
+  .post-excerpt :global(pre),
+  .post-excerpt :global(blockquote),
+  .post-excerpt :global(ul),
+  .post-excerpt :global(ol) {
+    margin-block: 0.75rem;
+  }
+  .post-footer {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.75;
+    letter-spacing: normal;
+  }
+  .post-footer time,
+  .page-count {
+    color: var(--muted);
+  }
+  .post-footer a {
+    flex-shrink: 0;
+    padding-block: 0.25rem;
+  }
+  .post-footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .pagination {
+    font-size: 0.875rem;
+  }
+  .pagination a {
+    min-height: 2.75rem;
+  }
+</style>
