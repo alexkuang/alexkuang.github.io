@@ -26,7 +26,7 @@ const posts = await Promise.all(
   >
     {
       posts.map((post) => (
-        <article class="feed-entry prose w-full max-w-none pb-8 tracking-tight prose-zinc dark:prose-invert prose-img:mx-auto prose-img:my-auto">
+        <article class="feed-entry prose w-full max-w-none pb-8 prose-zinc dark:prose-invert prose-img:mx-auto prose-img:my-auto">
           {post.data.title && (
             <h2>
               <a href={getPostUrl(post)} class="font-semibold no-underline hover:underline">
