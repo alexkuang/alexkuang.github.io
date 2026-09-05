@@ -24,7 +24,6 @@ const selectedPosts = selections.map(({ slug, note }) => {
         previously, technical cofounder at <a href="https://www.withparallax.com/">parallax</a>. this is where I write
         about building software, running businesses, and whatever else catches my attention.
       </p>
-      <a class="about-link" href="/about/">more about me <span aria-hidden="true">↗</span></a>
     </section>
     <section class="writing-section" aria-labelledby="selected-title">
       <h2 id="selected-title">a few to start with</h2>
@@ -43,7 +42,7 @@ const selectedPosts = selections.map(({ slug, note }) => {
     </section>
     <section class="writing-section" aria-labelledby="recent-title">
       <div class="section-heading">
-        <h2 id="recent-title">recent writing</h2><a href="/posts/">all posts <span aria-hidden="true">→</span></a>
+        <h2 id="recent-title">recent</h2><a href="/posts/">all posts <span aria-hidden="true">→</span></a>
       </div>
       <ul class="recent-posts">
         {
@@ -72,7 +71,7 @@ const selectedPosts = selections.map(({ slug, note }) => {
 
 <style>
   .home {
-    max-width: 42rem;
+    max-width: 49rem;
     margin: 4.5rem auto 0;
     padding: 0 1.25rem 3rem;
   }
@@ -99,19 +98,15 @@ const selectedPosts = selections.map(({ slug, note }) => {
     text-decoration: underline;
     text-underline-offset: 0.2em;
   }
-  .about-link {
-    display: inline-block;
-    margin-top: 1.25rem;
-    font-size: 0.875rem;
-  }
   .writing-section {
     margin-top: 3rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--rule);
   }
   h2 {
-    font-size: 0.875rem;
+    font-size: 1.25rem;
     font-weight: 650;
+    letter-spacing: -0.025em;
   }
   ul {
     list-style: none;
@@ -123,8 +118,8 @@ const selectedPosts = selections.map(({ slug, note }) => {
     margin-top: 1.5rem;
   }
   .selected-posts a {
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 550;
     letter-spacing: -0.02em;
   }
   .selected-posts p {
