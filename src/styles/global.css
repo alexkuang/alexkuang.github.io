@@ -3,26 +3,49 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+  --ink: #20242c;
+  --muted: #626975;
+  --rule: #dce0e6;
+}
+html.dark {
+  --ink: #e4e7ec;
+  --muted: #a0a7b3;
+  --rule: #343b47;
+}
+body {
+  color: var(--ink);
+}
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
 @font-face {
-  font-family: 'Manrope';
-  src: url('/fonts/manrope-variable.woff2') format('woff2');
+  font-family: "Manrope";
+  src: url("/fonts/manrope-variable.woff2") format("woff2");
   font-weight: 200 800;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Monaspace';
-  src: url('/fonts/monaspace-variable.woff2') format('woff2'),
-       url('/fonts/monaspace-variable.woff2') format('woff2');
+  font-family: "Monaspace";
+  src:
+    url("/fonts/monaspace-variable.woff2") format("woff2"),
+    url("/fonts/monaspace-variable.woff2") format("woff2");
   font-weight: 200 800;
   font-style: normal;
   font-display: swap;
 }
 
 @theme {
-  --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-mono: 'Monaspace', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --font-sans:
+    "Manrope", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+  --font-mono:
+    "Monaspace", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 @utility prose {

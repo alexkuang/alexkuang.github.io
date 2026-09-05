@@ -1,38 +1,194 @@
 ---
-import Link from "src/components/Link.astro";
 import Root from "src/layouts/Root.astro";
-import absolutelyRightData from "src/data/absolutely-right.json";
+import { getPosts, getPostUrl } from "src/util";
 
-const lastCommit = new Date(absolutelyRightData.lastCommitDate);
-const today = new Date();
-const diffTime = today.getTime() - lastCommit.getTime();
-const daysSince = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+const posts = await getPosts();
+const selections = [
+  { slug: "growth-is-just-upside-risk", note: "on fundraising, growth, and the bets a business makes." },
+  { slug: "prs-for-everything", note: "what other kinds of work could borrow from software development." },
+  { slug: "promptbaiting", note: "when talking to an LLM starts to feel like scrolling." },
+];
+const selectedPosts = selections.map(({ slug, note }) => {
+  const post = posts.find((post) => getPostUrl(post) === `/${slug}/`);
+  if (!post) throw new Error(`Selected post not found: ${slug}`);
+  return { post, note };
+});
 ---
 
-<Root title="makeshift.computer">
-  <div class="mt-8 flex flex-col items-center px-4">
-    <div class="w-full max-w-prose text-zinc-900 dark:text-zinc-100">
-      <p class="mr-2 text-2xl font-medium tracking-tight">hello, world.</p>
-      <p class="mt-2">
-        It has been <span class="font-bold text-zinc-700 dark:text-zinc-200">{daysSince}</span> day{
-          daysSince === 1 ? "" : "s"
-        } since I have been <Link
-          href="https://github.com/alexkuang/alexkuang.github.io/blob/76987215bf8cf5e7dc893152de162d5d4270b35c/scripts/update-absolutely-right.sh"
-          class="underline">absolutely right!</Link
-        >
+<Root title="Alex Kuang · makeshift.computer">
+  <div class="home">
+    <section class="intro" aria-labelledby="intro-title">
+      <h1 id="intro-title">hello, I'm Alex.</h1>
+      <p class="intro-copy">entrepreneur and software person. currently exploring new startup and product ideas.</p>
+      <p class="intro-detail">
+        previously, technical cofounder at <a href="https://www.withparallax.com/">parallax</a>. this is where I write
+        about building software, running businesses, and whatever else catches my attention.
       </p>
-      <nav class="mt-8 flex gap-4">
-        <a
-          href="/posts/"
-          class="font-bold text-zinc-900 uppercase hover:text-zinc-700 dark:text-zinc-300 dark:hover:text-zinc-100"
-          >blog</a
-        >
-        <a
-          href="/about/"
-          class="font-bold text-zinc-900 uppercase hover:text-zinc-700 dark:text-zinc-300 dark:hover:text-zinc-100"
-          >about</a
-        >
+      <a class="about-link" href="/about/">more about me <span aria-hidden="true">↗</span></a>
+    </section>
+    <section class="writing-section" aria-labelledby="selected-title">
+      <h2 id="selected-title">a few to start with</h2>
+      <ul class="selected-posts">
+        {
+          selectedPosts.map(({ post, note }) => (
+            <li>
+              <>
+                <a href={getPostUrl(post)}>{post.data.title}</a>
+                <p>{note}</p>
+              </>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+    <section class="writing-section" aria-labelledby="recent-title">
+      <div class="section-heading">
+        <h2 id="recent-title">recent writing</h2><a href="/posts/">all posts <span aria-hidden="true">→</span></a>
+      </div>
+      <ul class="recent-posts">
+        {
+          posts.slice(0, 5).map((post) => (
+            <li>
+              <a href={getPostUrl(post)}>{post.data.title || "a quick note"}</a>
+              <time datetime={post.publishedAt.toPlainDate().toString()}>
+                {post.publishedAt.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+              </time>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+    <footer class="home-footer">
+      <nav aria-label="Find me elsewhere">
+        <a href="mailto:hi@makeshift.computer">say hello <span aria-hidden="true">↗</span></a>
+        <a href="https://github.com/alexkuang">github</a>
+        <a href="https://www.linkedin.com/in/khxela/">linkedin</a>
+        <a href="https://photos.makeshift.computer/">photos</a>
+        <a href="/rss.xml">rss</a>
       </nav>
-    </div>
+    </footer>
   </div>
 </Root>
+
+<style>
+  .home {
+    max-width: 42rem;
+    margin: 4.5rem auto 0;
+    padding: 0 1.25rem 3rem;
+  }
+  h1 {
+    margin: 1rem 0 1.25rem;
+    font-size: clamp(2.2rem, 6vw, 3.25rem);
+    font-weight: 650;
+    line-height: 1.15;
+    letter-spacing: -0.055em;
+  }
+  .intro-copy {
+    max-width: 34rem;
+    font-size: 1.25rem;
+    line-height: 1.65;
+    letter-spacing: -0.02em;
+  }
+  .intro-detail {
+    margin-top: 1rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .intro-detail a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .about-link {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+  }
+  .writing-section {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+  }
+  h2 {
+    font-size: 0.875rem;
+    font-weight: 650;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  .selected-posts {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .selected-posts a {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .selected-posts p {
+    margin-top: 0.3rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .section-heading > a {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .recent-posts {
+    margin-top: 1rem;
+  }
+  .recent-posts li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.65rem 0;
+  }
+  .recent-posts a {
+    font-size: 0.925rem;
+  }
+  time {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .home-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.8rem;
+  }
+  .home-footer nav {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 1.25rem;
+    row-gap: 0.25rem;
+  }
+  .home-footer a {
+    padding: 0.4rem 0;
+  }
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  @media (max-width: 480px) {
+    .home {
+      margin-top: 2.75rem;
+    }
+    .recent-posts li {
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 0.75rem 0;
+    }
+  }
+</style>

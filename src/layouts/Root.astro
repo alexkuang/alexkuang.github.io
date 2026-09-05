@@ -13,24 +13,23 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body class="h-full bg-zinc-50 antialiased dark:bg-zinc-900">
-    <header class="mx-auto flex max-w-5xl items-center justify-between p-4">
+    <header class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-6 gap-y-4 p-5">
       <div
-        class="text-xl font-bold text-zinc-900 uppercase hover:text-zinc-700 dark:text-zinc-300 dark:hover:text-zinc-100"
+        class="text-base font-semibold tracking-tight text-zinc-900 hover:text-zinc-700 dark:text-zinc-300 dark:hover:text-zinc-100"
       >
         <a href="/">makeshift.computer</a>
       </div>
 
       <div class="flex items-center space-x-4">
-        <nav class="space-x-2 font-medium">
-          <!--
-          <span><a href="#">about</a></span>
-          <span><a href="#">now</a></span>
-          -->
+        <nav aria-label="Main navigation" class="flex gap-4 text-sm font-medium">
+          <a href="/posts/" class="hover:underline">blog</a>
+          <a href="/about/" class="hover:underline">about</a>
         </nav>
 
         <div class="isolate inline-flex rounded-xs bg-zinc-50 dark:bg-zinc-950">
           <button
             id="light-theme-button"
+            aria-label="Light theme"
             type="button"
             class="relative inline-flex items-center rounded-l-xs px-2 py-1 text-sm font-semibold ring-1 ring-zinc-300 ring-inset hover:bg-zinc-100 focus:z-10 dark:ring-zinc-400 dark:hover:bg-zinc-900"
           >
@@ -53,6 +52,7 @@ const { title } = Astro.props;
           <button
             type="button"
             id="dark-theme-button"
+            aria-label="Dark theme"
             class="relative -ml-px inline-flex items-center px-2 py-1 text-sm font-semibold ring-1 ring-zinc-300 ring-inset hover:bg-zinc-100 focus:z-10 dark:ring-zinc-400 dark:hover:bg-zinc-900"
           >
             <svg
@@ -74,6 +74,7 @@ const { title } = Astro.props;
           <button
             type="button"
             id="system-theme-button"
+            aria-label="System theme"
             class="relative -ml-px inline-flex items-center rounded-r-xs px-2 py-1 text-sm font-semibold ring-1 ring-zinc-300 ring-inset hover:bg-zinc-100 focus:z-10 dark:ring-zinc-400 dark:hover:bg-zinc-900"
           >
             <svg
@@ -158,6 +159,7 @@ const { title } = Astro.props;
 
       ["light", "dark", "system"].forEach((t) => {
         const button = document.getElementById(`${t}-theme-button`);
+        button?.setAttribute("aria-pressed", String(t === theme));
         button?.classList.remove("bg-zinc-200");
         button?.classList.remove("dark:bg-zinc-800");
       });
